@@ -456,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    220
+                    835
                 </div>
                 
 
@@ -482,7 +482,7 @@
 </ol>
 <h2 id="二、报文"><a href="#二、报文" class="headerlink" title="二、报文"></a>二、报文</h2><ol>
 <li><p>请求报文</p>
-<p>请求报文由 方法、URI、协议版本、请求首部字段、内容实体组成。</p>
+<p>请求报文由 方法、URI、协议版本、请求首部字段(前几项共同组成报文首部)内容实体组成。</p>
 <ul>
 <li><p>方法</p>
 <p>GET:获取资源(客户端说：请把资源给我)</p>
@@ -500,8 +500,80 @@
 <p>响应报文由协议版本、状态码、状态码原因短语、响应首部字段组成。</p>
 </li>
 <li><p>请求行和状态行</p>
+<p>请求行：包含请求的方法和版本。</p>
+<p>状态行：包含状态码和原因短语。</p>
 </li>
 </ol>
+<h2 id="三、状态码"><a href="#三、状态码" class="headerlink" title="三、状态码"></a>三、状态码</h2><ol>
+<li><p>1xx(信息状态码)</p>
+<p>接受的信息正在处理</p>
+</li>
+<li><p>2xx(成功状态码)</p>
+<p>200    ok</p>
+<p>204    请求成功但无资源返回</p>
+<p>206    请求资源的一部分</p>
+</li>
+<li><p>3xx(重定向状态码)</p>
+<p>301    永久重定向</p>
+<p>302    临时重定向</p>
+<p>304    资源找到到请求不符合要求</p>
+<p>307    临时重定向</p>
+</li>
+<li><p>4xx(客户端错误码)</p>
+<p>401    http认证失败</p>
+<p>403    访问资源不允许访问</p>
+<p>404    页面找不到</p>
+</li>
+<li><p>5xx(服务端状态码)</p>
+<p>500    资源出现问题</p>
+<p>503    服务器正忙</p>
+</li>
+</ol>
+<h2 id="四、常用首部字段"><a href="#四、常用首部字段" class="headerlink" title="四、常用首部字段"></a>四、常用首部字段</h2><ul>
+<li><p>请求首部字段</p>
+<p>Accept：用户代理可处理的媒体类型</p>
+<p>Accept-Charset：优先的字符集</p>
+<p>Accept-Encoding：优先的内容编码</p>
+<p>Accept-Language：优先的语言（自然语言）</p>
+<p>Authorization：Web认证信息</p>
+<p>Expect：期待服务器的特定行为</p>
+<p>From：用户的电子邮箱地址</p>
+<p>Host：请求资源所在服务器</p>
+<p>If-Match：比较实体标记（ETag）</p>
+<p>If-Modified-Since：比较资源的更新时间</p>
+<p>If-None-Match：比较实体标记（与If-Match相反）</p>
+<p>If-Range：资源未更新时发送实体Byte的范围请求</p>
+<p>If-Unmodified-Since：比较资源的更新时间（与If-Modified-Since相反）</p>
+<p>Max-Forwards：最大传输逐跳数</p>
+<p>Proxy-Authorization：代理服务器要求客户端的认真信息</p>
+<p>Range：实体的直接范围请求</p>
+<p>Referer：对请求中URI的原始获取方</p>
+<p>TE：传输编码的优先级</p>
+<p>User-Agent：HTTP客户端程序的信息</p>
+</li>
+<li><p>响应首部字段</p>
+<p>Accept-Ranges：是否接受字节范围请求</p>
+<p>Age：推算资源创建经过时间</p>
+<p>ETa：资源的匹配信息</p>
+<p>Location：令客户端重定向至指定URI</p>
+<p>Proxy-Authenticate：代理服务器对客户端的认真信息</p>
+<p>Retry-After：对再次发起请求的时机请求</p>
+<p>Server：HTTP服务器的安装信息</p>
+<p>Vary：代理服务器缓存的管理信息</p>
+<p>WWW-Authenticate：服务器对客户端的认真信息</p>
+</li>
+<li><p>通用字段</p>
+<p>Cache-Control：控制缓存的行为</p>
+<p>Connection：逐跳首部、管理持久连接。不再转发的首部字段名。</p>
+<p>Date：创建报文的日期时间</p>
+<p>Pragma：报文指令</p>
+<p>Trailer：报文末端的首部一览</p>
+<p>Transfer-Encoding：指定报文主体的传输编码方式</p>
+<p>Upgrade：升级为其他协议</p>
+<p>Via：代理服务器的相关信息</p>
+<p>Warning：错误通知</p>
+</li>
+</ul>
 
                 
             </div>
@@ -967,7 +1039,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">479</span>&nbsp;字
+                class="white-color">1.1k</span>&nbsp;字
             
             
             
