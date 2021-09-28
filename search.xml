@@ -4,6 +4,32 @@
   
     
     <entry>
+      <title>Http协议</title>
+      <link href="/2021/09/28/http-xie-yi/"/>
+      <url>/2021/09/28/http-xie-yi/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>队列</title>
+      <link href="/2021/09/28/dui-lie/"/>
+      <url>/2021/09/28/dui-lie/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>常用集合</title>
       <link href="/2021/09/27/chang-yong-ji-he/"/>
       <url>/2021/09/27/chang-yong-ji-he/</url>
@@ -66,6 +92,25 @@
         <tags>
             
             <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>线性表</title>
+      <link href="/2021/09/20/xian-xing-biao/"/>
+      <url>/2021/09/20/xian-xing-biao/</url>
+      
+        <content type="html"><![CDATA[<h3 id="一、线性表概述"><a href="#一、线性表概述" class="headerlink" title="一、线性表概述"></a>一、线性表概述</h3><h3 id="1-线性表定义"><a href="#1-线性表定义" class="headerlink" title="1.线性表定义"></a>1.线性表定义</h3><p>线性表：n个同类型数据元素的有序序列</p><p>L=(a1,a2,a3,……..an)</p><p>除a1外，其他数据元素均有直接前驱</p><p>除an外，其他数据元素均有直接后驱</p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 数据结构 </tag>
             
         </tags>
       
