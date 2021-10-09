@@ -452,7 +452,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    1.1k
+                    3.1k
                 </div>
                 
 
@@ -475,7 +475,7 @@
                 <h2 id="锁"><a href="#锁" class="headerlink" title="锁"></a>锁</h2><h4 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h4><h4 id="AQS"><a href="#AQS" class="headerlink" title="AQS"></a>AQS</h4><ol>
 <li><p>AQS可以分为独占式(一个线程获取锁)和共享式(多个线程获取)</p>
 </li>
-<li><p>维护一个同步状态和一个线程队列</p>
+<li><p>维护一个同步状态和一个线程队列 </p>
 </li>
 <li><p>AQS提供了一些模板方法和需要根据实际功能重写的方法</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//继承同步器可以重写的5个方法</span>
@@ -711,11 +711,338 @@
        <span class="token punctuation">&#125;</span>
    <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
 <li><p>java中的锁</p>
-<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;重入锁<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;重入锁
+&#x2F;*
+	结构：ReentrantLock 三个内部类，Sync(继承AQS)和sync的两个子类FairSync和NonFairSync
+*&#x2F;
+
+	abstract static class Sync extends AbstractQueuedSynchronizer &#123;
+        private static final long serialVersionUID &#x3D; -5179523762034025860L;
+
+        &#x2F;**
+         * Performs &#123;@link Lock#lock&#125;. The main reason for subclassing
+         * is to allow fast path for nonfair version.
+         *&#x2F;
+        abstract void lock();
+
+        &#x2F;**
+         * Performs non-fair tryLock.  tryAcquire is implemented in
+         * subclasses, but both need nonfair try for trylock method.
+         *&#x2F;
+        final boolean nonfairTryAcquire(int acquires) &#123;
+            final Thread current &#x3D; Thread.currentThread();
+            int c &#x3D; getState();
+            if (c &#x3D;&#x3D; 0) &#123;
+                if (compareAndSetState(0, acquires)) &#123;
+                    setExclusiveOwnerThread(current);
+                    return true;
+                &#125;
+            &#125;
+            else if (current &#x3D;&#x3D; getExclusiveOwnerThread()) &#123;
+                int nextc &#x3D; c + acquires;
+                if (nextc &lt; 0) &#x2F;&#x2F; overflow
+                    throw new Error(&quot;Maximum lock count exceeded&quot;);
+                setState(nextc);
+                return true;
+            &#125;
+            return false;
+        &#125;
+
+        protected final boolean tryRelease(int releases) &#123;
+            int c &#x3D; getState() - releases;
+            if (Thread.currentThread() !&#x3D; getExclusiveOwnerThread())
+                throw new IllegalMonitorStateException();
+            boolean free &#x3D; false;
+            if (c &#x3D;&#x3D; 0) &#123;
+                free &#x3D; true;
+                setExclusiveOwnerThread(null);
+            &#125;
+            setState(c);
+            return free;
+        &#125;
+
+        protected final boolean isHeldExclusively() &#123;
+            &#x2F;&#x2F; While we must in general read state before owner,
+            &#x2F;&#x2F; we don&#39;t need to do so to check if current thread is owner
+            return getExclusiveOwnerThread() &#x3D;&#x3D; Thread.currentThread();
+        &#125;
+
+        final ConditionObject newCondition() &#123;
+            return new ConditionObject();
+        &#125;
+
+        &#x2F;&#x2F; Methods relayed from outer class
+
+        final Thread getOwner() &#123;
+            return getState() &#x3D;&#x3D; 0 ? null : getExclusiveOwnerThread();
+        &#125;
+
+        final int getHoldCount() &#123;
+            return isHeldExclusively() ? getState() : 0;
+        &#125;
+
+        final boolean isLocked() &#123;
+            return getState() !&#x3D; 0;
+        &#125;
+
+        &#x2F;**
+         * Reconstitutes the instance from a stream (that is, deserializes it).
+         *&#x2F;
+        private void readObject(java.io.ObjectInputStream s)
+            throws java.io.IOException, ClassNotFoundException &#123;
+            s.defaultReadObject();
+            setState(0); &#x2F;&#x2F; reset to unlocked state
+        &#125;
+    &#125;
+
+    &#x2F;**
+     * Sync object for non-fair locks
+     *&#x2F;
+    static final class NonfairSync extends Sync &#123;
+        private static final long serialVersionUID &#x3D; 7316153563782823691L;
+
+        &#x2F;**
+         * Performs lock.  Try immediate barge, backing up to normal
+         * acquire on failure.
+         *&#x2F;
+        final void lock() &#123;
+            if (compareAndSetState(0, 1))
+                setExclusiveOwnerThread(Thread.currentThread());
+            else
+                acquire(1);
+        &#125;
+
+        protected final boolean tryAcquire(int acquires) &#123;
+            return nonfairTryAcquire(acquires);
+        &#125;
+    &#125;
+    
+    static final class FairSync extends Sync &#123;
+        private static final long serialVersionUID &#x3D; -3000897897090466540L;
+
+        final void lock() &#123;
+            acquire(1);
+        &#125;
+
+        &#x2F;**
+         * Fair version of tryAcquire.  Don&#39;t grant access unless
+         * recursive call or no waiters or is first.
+         *&#x2F;
+        protected final boolean tryAcquire(int acquires) &#123;
+            final Thread current &#x3D; Thread.currentThread();
+            int c &#x3D; getState();
+            if (c &#x3D;&#x3D; 0) &#123;
+                if (!hasQueuedPredecessors() &amp;&amp;
+                    compareAndSetState(0, acquires)) &#123;
+                    setExclusiveOwnerThread(current);
+                    return true;
+                &#125;
+            &#125;
+            else if (current &#x3D;&#x3D; getExclusiveOwnerThread()) &#123;
+                int nextc &#x3D; c + acquires;
+                if (nextc &lt; 0)
+                    throw new Error(&quot;Maximum lock count exceeded&quot;);
+                setState(nextc);
+                return true;
+            &#125;
+            return false;
+        &#125;
+    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <pre class="line-numbers language-none"><code class="language-none">&#x2F;&#x2F;读写锁<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
 </ol>
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2>
+<h2 id="并发队列"><a href="#并发队列" class="headerlink" title="并发队列"></a>并发队列</h2><p>实现安全队列：阻塞算法和非阻塞方法</p>
+<ul>
+<li><p>java中的阻塞队列</p>
+<p>ArrayBlockingQueue：数组结构有界队列</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"> <span class="token comment">/*
+ 内部由一个重入锁实现，默认是不公平，需要指定
+ */</span>
+<span class="token keyword">public</span> <span class="token class-name">ArrayBlockingQueue</span><span class="token punctuation">(</span><span class="token keyword">int</span> capacity<span class="token punctuation">,</span> <span class="token keyword">boolean</span> fair<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+       <span class="token keyword">if</span> <span class="token punctuation">(</span>capacity <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">)</span>
+           <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       <span class="token keyword">this</span><span class="token punctuation">.</span>items <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">[</span>capacity<span class="token punctuation">]</span><span class="token punctuation">;</span>
+       lock <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ReentrantLock</span><span class="token punctuation">(</span>fair<span class="token punctuation">)</span><span class="token punctuation">;</span>
+       notEmpty <span class="token operator">=</span> lock<span class="token punctuation">.</span><span class="token function">newCondition</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+       notFull <span class="token operator">=</span>  lock<span class="token punctuation">.</span><span class="token function">newCondition</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>LinkedBlockingQueue：链表结构有界队列，默认长度是Integer.MAX_VALUE。 </p>
+<p>PriorityBlockingQueue：支持优先级排序的无界阻塞队列</p>
+<p>DelayQueue：由优先级队列实现的无界队列 </p>
+<p>SynchronouseQueue：不存储元素的队列</p>
+<p>LinkedTrnsferQueue：由链表组成的无界队列</p>
+<p>LinkedBlockingDeque：由链表组成的双向队列</p>
+</li>
+</ul>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><ol>
+<li><p>线程池的实现原理</p>
+<p>提交一个新任务，判断线程池中是否有空闲线程，存在执行任务，不存在则判断线程池是否达到核心数，不到则创建新线程执行，满、到则判断队列是否已满，不满加入队列，满则判断是否达到线程池最大数，没则创建新线程，满则失败。</p>
+<img src="/2021/10/08/duobingfa/ab4883c2d65ec3f2cb17638148db3faf.jpeg" class=""></li>
+<li><p>ThreadPoolExecutor</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">/*
+	构造函数：
+		int corePoolSize：该线程池中核心线程数最大值
+		int maximumPoolSize： 该线程池中线程总数最大值
+		long keepAliveTime：该线程池中非核心线程闲置超时时长
+		TimeUnit是一个枚举类型，其包括：
+			NANOSECONDS ： 1微毫秒 = 1微秒 / 1000
+			MICROSECONDS ： 1微秒 = 1毫秒 / 1000
+			MILLISECONDS ： 1毫秒 = 1秒 /1000
+			SECONDS ： 秒
+			MINUTES ： 分
+			HOURS ： 小时
+			DAYS ： 天
+		BlockingQueue workQueue：该线程池中的任务队列：维护着等待执行的Runnable对象
+		ThreadFactory threadFactory：创建线程的方式
+		RejectedExecutionHandler handler：抛出异常专用的
+*/</span>
+
+	<span class="token keyword">public</span> <span class="token class-name">ThreadPoolExecutor</span><span class="token punctuation">(</span><span class="token keyword">int</span> corePoolSize<span class="token punctuation">,</span>
+                              <span class="token keyword">int</span> maximumPoolSize<span class="token punctuation">,</span>
+                              <span class="token keyword">long</span> keepAliveTime<span class="token punctuation">,</span>
+                              <span class="token class-name">TimeUnit</span> unit<span class="token punctuation">,</span>
+                              <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Runnable</span><span class="token punctuation">></span></span> workQueue<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">(</span>corePoolSize<span class="token punctuation">,</span> maximumPoolSize<span class="token punctuation">,</span> keepAliveTime<span class="token punctuation">,</span> unit<span class="token punctuation">,</span> workQueue<span class="token punctuation">,</span>
+             <span class="token class-name">Executors</span><span class="token punctuation">.</span><span class="token function">defaultThreadFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> defaultHandler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+ 	<span class="token keyword">public</span> <span class="token class-name">ThreadPoolExecutor</span><span class="token punctuation">(</span><span class="token keyword">int</span> corePoolSize<span class="token punctuation">,</span>
+                              <span class="token keyword">int</span> maximumPoolSize<span class="token punctuation">,</span>
+                              <span class="token keyword">long</span> keepAliveTime<span class="token punctuation">,</span>
+                              <span class="token class-name">TimeUnit</span> unit<span class="token punctuation">,</span>
+                              <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Runnable</span><span class="token punctuation">></span></span> workQueue<span class="token punctuation">,</span>
+                              <span class="token class-name">ThreadFactory</span> threadFactory<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">(</span>corePoolSize<span class="token punctuation">,</span> maximumPoolSize<span class="token punctuation">,</span> keepAliveTime<span class="token punctuation">,</span> unit<span class="token punctuation">,</span> workQueue<span class="token punctuation">,</span>
+             threadFactory<span class="token punctuation">,</span> defaultHandler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+	 <span class="token keyword">public</span> <span class="token class-name">ThreadPoolExecutor</span><span class="token punctuation">(</span><span class="token keyword">int</span> corePoolSize<span class="token punctuation">,</span>
+                              <span class="token keyword">int</span> maximumPoolSize<span class="token punctuation">,</span>
+                              <span class="token keyword">long</span> keepAliveTime<span class="token punctuation">,</span>
+                              <span class="token class-name">TimeUnit</span> unit<span class="token punctuation">,</span>
+                              <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Runnable</span><span class="token punctuation">></span></span> workQueue<span class="token punctuation">,</span>
+                              <span class="token class-name">RejectedExecutionHandler</span> handler<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">(</span>corePoolSize<span class="token punctuation">,</span> maximumPoolSize<span class="token punctuation">,</span> keepAliveTime<span class="token punctuation">,</span> unit<span class="token punctuation">,</span> workQueue<span class="token punctuation">,</span>
+             <span class="token class-name">Executors</span><span class="token punctuation">.</span><span class="token function">defaultThreadFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> handler<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+	<span class="token keyword">public</span> <span class="token class-name">ThreadPoolExecutor</span><span class="token punctuation">(</span><span class="token keyword">int</span> corePoolSize<span class="token punctuation">,</span>
+                              <span class="token keyword">int</span> maximumPoolSize<span class="token punctuation">,</span>
+                              <span class="token keyword">long</span> keepAliveTime<span class="token punctuation">,</span>
+                              <span class="token class-name">TimeUnit</span> unit<span class="token punctuation">,</span>
+                              <span class="token class-name">BlockingQueue</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Runnable</span><span class="token punctuation">></span></span> workQueue<span class="token punctuation">,</span>
+                              <span class="token class-name">ThreadFactory</span> threadFactory<span class="token punctuation">,</span>
+                              <span class="token class-name">RejectedExecutionHandler</span> handler<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>corePoolSize <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">||</span>
+            maximumPoolSize <span class="token operator">&lt;=</span> <span class="token number">0</span> <span class="token operator">||</span>
+            maximumPoolSize <span class="token operator">&lt;</span> corePoolSize <span class="token operator">||</span>
+            keepAliveTime <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>workQueue <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> threadFactory <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> handler <span class="token operator">==</span> <span class="token keyword">null</span><span class="token punctuation">)</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">NullPointerException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>corePoolSize <span class="token operator">=</span> corePoolSize<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>maximumPoolSize <span class="token operator">=</span> maximumPoolSize<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>workQueue <span class="token operator">=</span> workQueue<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>keepAliveTime <span class="token operator">=</span> unit<span class="token punctuation">.</span><span class="token function">toNanos</span><span class="token punctuation">(</span>keepAliveTime<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>threadFactory <span class="token operator">=</span> threadFactory<span class="token punctuation">;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>handler <span class="token operator">=</span> handler<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+
+<span class="token comment">/*
+	线程池新建线程的时候，如果当前线程总数小于corePoolSize，则新建的是核心线程，如果超过corePoolSize，则新建的是非核心线
+	程核心线程默认情况下会一直存活在线程池中。如果指定ThreadPoolExecutor的allowCoreThreadTimeOut这个属性为	true，那
+	么核心线程如果闲置状态的话，超过一定时间(时长下面参数决定)，就会被销毁掉。一个非核心线程，如果闲置状态的时长超过这个参数
+	所设定的时长，就会被销毁掉，如果设置allowCoreThreadTimeOut = true，则会作用于核心线程。
+*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li><p>ThreadPoolExecutor的子类：</p>
+<ul>
+<li>FixedThreadPool：可重用固定线程数</li>
+<li>SingleThreadExecutor：只使用单个线程</li>
+<li>CachedThreadPool： 核心线程数0，非核心Max_Value即无界，设有空闲时间</li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">Executors辅助类
+&#x2F;&#x2F;创建FixedThreadPool
+    public static ExecutorService newFixedThreadPool(int nThreads) &#123;
+        return new ThreadPoolExecutor(nThreads, nThreads,
+                                      0L, TimeUnit.MILLISECONDS,
+                                      new LinkedBlockingQueue&lt;Runnable&gt;());
+    &#125;
+&#x2F;&#x2F;创建SingleThreadExecutor
+    public static ExecutorService newSingleThreadExecutor() &#123;
+        return new FinalizableDelegatedExecutorService
+            (new ThreadPoolExecutor(1, 1,
+                                    0L, TimeUnit.MILLISECONDS,
+                                    new LinkedBlockingQueue&lt;Runnable&gt;()));
+    &#125;
+&#x2F;&#x2F;创建CachedThreadPool 
+    public static ExecutorService newCachedThreadPool() &#123;
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                                      60L, TimeUnit.SECONDS,
+                                      new SynchronousQueue&lt;Runnable&gt;());
+    &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>FixedThreadPool</p>
+<ul>
+<li>由构造方法可得知：核心线程数和最大线程数相等，超时时间为0，即空则消除，采用LinkedBlockingQueue。</li>
+<li>原理：提交任务，少于corePoolSize则新建线程执行任务，当满后，放入队列中，默认队列最大值。所以该线程池不会拒绝任务。</li>
+</ul>
+</li>
+<li><p>SingleThreadExecutor</p>
+<ul>
+<li>构造方法可知，核心线程数和核心线程数都是1，超时时间为0，使用LinkedBlockingQueue。</li>
+</ul>
+</li>
+<li><p>CachedThreadPool</p>
+<ul>
+<li>构造方法，核心线程数0，最大线程数Integer.MAX_VALUE，超时时间为60s.使用SynchronouseQueue</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="volatile原理"><a href="#volatile原理" class="headerlink" title="volatile原理"></a>volatile原理</h2><p>当进行写操作时，会发送lock指令：</p>
+<p>​    JVM 向处理器发送一条Lock指令，将变量写回系统内存。</p>
+<p>​    当处理器发现当前对应内存地址被修改，其他缓存了该内存地址的数据将被设为无效</p>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><ol>
+<li><p>锁对象</p>
+<ul>
+<li>同步方法，锁是当前实例对象</li>
+<li>静态同步方法，锁是当前类</li>
+<li>同步方法块，锁是synchronized块配置的对象</li>
+</ul>
+</li>
+<li><p>java对象头</p>
+<p>对象存储在堆上，由对象头，对象实例数据和对齐填充(保证对象的大小是8的倍数)</p>
+<p>锁的状态分为：无锁、偏向锁、轻量级锁和重量级锁，增加了偏向锁和轻量级锁，且锁    升级之后，是不会降级的，即轻锁变成重锁之后不能再变成轻锁。</p>
+<p>&lt;1.Mark Word(存储对象的锁信息和hashcode)</p>
+<img src="/2021/10/08/duobingfa/%E5%9B%BE%E7%89%875.png" class="">
+
+<p>&lt;2.指向类的指针</p>
+<p>&lt;3.数组长度（只有数组对象才有）</p>
+</li>
+<li><p>获取锁的级别</p>
+<p>当新建一个对象时，锁的状态是无锁。</p>
+<p>默认开启偏向锁，且是延时启动的。-xx:BiasedLockingStarupDelay=0,关闭延时。</p>
+<p>当出现新线程与拥有锁的线程竞争时，升级为轻量级锁</p>
+<img src="/2021/10/08/duobingfa/%E5%9B%BE%E7%89%874.png" class=""></li>
+<li><p>锁分类及升级</p>
+<ul>
+<li><p>偏向锁</p>
+<p>加锁：当线程访问同步代码块时，会将该线程ID存储在对象头和栈帧中，当线程再次访问该代码块时，会验证对象头中是否有访问线程的ID，若有的话，则直接获得锁，若不存在此线程ID,则检查偏向锁位是否置为1，若为1，则此线程获得偏向锁，若为0，则将此线程置为竞争线程(CAS轻量级锁)。</p>
+<p>放锁：偏向锁采用等到竞争才释放锁的机制。当锁被竞争时，首先会暂停拥有锁的线程，然后检查拥有锁的线程是否活着，&lt;1若活着，先查看对象头中的Epoch，若锁的撤销次数大于40次，则升级为轻量级锁，再检查该线程与竞争的线程是否仍竞争，若不存在竞争，则释放锁，竞争线程获取锁，若存在竞争，则升级锁。&lt;2线程死，则释放锁，竞争线程获得锁。</p>
+</li>
+<li><p>轻量级</p>
+<p>获取和释放锁</p>
+<img src="/2021/10/08/duobingfa/%E5%9B%BE%E7%89%871.png" class="">
+
+<img src="/2021/10/08/duobingfa/%E5%9B%BE%E7%89%872.png" class=""></li>
+<li><p>重量级</p>
+</li>
+</ul>
+</li>
+</ol>
+
                 
             </div>
             <hr/>
@@ -1161,7 +1488,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">11.3k</span>&nbsp;字
+                class="white-color">13.4k</span>&nbsp;字
             
             
             
