@@ -101,6 +101,25 @@
     
     
     <entry>
+      <title>计算机网络</title>
+      <link href="/2021/09/29/jisuanjiwangluo/"/>
+      <url>/2021/09/29/jisuanjiwangluo/</url>
+      
+        <content type="html"><![CDATA[<h2 id="一、计算机网络"><a href="#一、计算机网络" class="headerlink" title="一、计算机网络"></a>一、计算机网络</h2><ol><li>计算机网络模型<ul><li>五层因特网模型<ul><li><p>应用层</p></li><li><p>运输层</p><p>重要设备：网关</p><p>主要协议：UDP和TCP</p></li><li><p>网络层</p><p>重要设备：路由器</p><p>主要协议：IP、ICMP、ARP、RAPP</p></li><li><p>链路层</p><p>重要设备：网桥和交换机</p></li><li><p>物理层</p></li></ul></li><li>OSI七层模型<ul><li>应用层：是用户与网络的接口</li><li>表示层：表示层处理流经结点的数据编码的表示方式问题，以保证一个系统应用层发出的信息可被另一系统的应用层读出</li><li>会话层：会话层主要功能是管理和协调不同主机上各种进程之间的通信（对话），即负责建立、管理和终止应用程序之间的会话</li><li>运输层：传输层的作用是为上层协议提供端到端的可靠和透明的数据传输服务，包括处理差错控制和流量控制等问题</li><li>网络层：网络层的任务就是选择合适的网间路由和交换结点， 确保数据及时传送。网络层将数据链路层提供的帧组成数据包</li><li>链路层：数据链路层是为网络层提供服务的，解决两个相邻结点之间的通信问题</li><li>物理层：它利用传输介质为数据链路层提供物理连接</li></ul></li></ul></li></ol><h2 id="二、应用层"><a href="#二、应用层" class="headerlink" title="二、应用层"></a>二、应用层</h2><h2 id="三、运输层"><a href="#三、运输层" class="headerlink" title="三、运输层"></a>三、运输层</h2><ol><li><p>UDP</p><p>UDP在发送报文段之前，发送方和接受方之间不会握手，UDP是无连接的。</p><p>UDP的特性</p><ul><li>应用层将数据传递给UDP时，UDP会立即将数据传送给网络层，没有阻塞机制</li><li>无需连接建立</li><li>无连接状态，无需维持连接状态</li></ul></li><li><p>TCP</p><ol><li><p>TCP的特点 </p><ul><li>TCP是面向连接的</li><li>全双工服务：一台主机的线程A和另一台主机线程B连接后,A的应用层可以传到B，B也可以传到A</li><li>TCP的连接是点对点的，单个发送，单个接受</li><li></li></ul></li><li><p>TCP的连接管理</p><ul><li><p>三次握手</p><img src="/2021/09/29/jisuanjiwangluo/e.png" class=""><p>SYN=1：同步信号，表示建立连接，SYN=1时</p><p>seq=x:表示发送端的数据包的初始序号为x;</p><p>ack:确认序号，表示响应。</p><p>ack=x+1:表示我方收到x为止的所有数据，希望下次发送的序号是 x+1</p></li><li><p>四次挥手</p><img src="/2021/09/29/jisuanjiwangluo/f.png" class=""><ul><li>FIN：=1，发起关闭信号</li></ul></li></ul></li></ol></li><li><p>UDP和TCP区别</p><ul><li>TCP面向连接，UDP无连接</li><li>TCP传输更加可靠，但UDP传输更快</li><li>TCP是点对点，UDP可以一对多</li></ul></li><li><p>TCP保证可靠传输的机制</p><ul><li>确认机制</li><li>重传机制</li><li>滑动窗口</li></ul></li></ol><h2 id="四、网络层"><a href="#四、网络层" class="headerlink" title="四、网络层"></a>四、网络层</h2><ol><li><p>IP协议     </p><p>编址分类</p><ul><li><p>1.0.0.0-127.255.255.255   A类</p><p>子网 255.0.0.0</p></li><li><p>128.0.0.0-191.255.255.255   B类</p><p>子网 255.255.0.0</p></li><li><p>192.0.0.0-233.255.255.255    C类</p><p>子网 255.255.255.0 </p></li><li><p>多播地址  224.0.0.0-239.255.255.255</p></li></ul></li></ol>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> 计算机 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>操作系统</title>
       <link href="/2021/09/29/caozuoxitong/"/>
       <url>/2021/09/29/caozuoxitong/</url>

@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="Hello hexo, Zh-Li">
+    <meta name="keywords" content="计算机网络, Zh-Li">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>Hello hexo | Zh-Li</title>
+    <title>计算机网络 | Zh-Li</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">Hello hexo</h1>
+                    <h1 class="description center-align post-title">计算机网络</h1>
                 </div>
             </div>
         </div>
@@ -431,23 +431,14 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/java/">
-                                <span class="chip bg-color">java</span>
+                            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+                                <span class="chip bg-color">计算机</span>
                             </a>
                         
                     </div>
                     
                 </div>
                 <div class="col s5 right-align">
-                    
-                    <div class="post-cate">
-                        <i class="fas fa-bookmark fa-fw icon-category"></i>
-                        
-                            <a href="/categories/web/" class="post-category">
-                                web
-                            </a>
-                        
-                    </div>
                     
                 </div>
             </div>
@@ -456,7 +447,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2021-09-26
+                    2021-09-29
                 </div>
                 
 
@@ -465,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    72
+                    727
                 </div>
                 
 
@@ -485,19 +476,113 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo new <span class="token string">"My New Post"</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+                <h2 id="一、计算机网络"><a href="#一、计算机网络" class="headerlink" title="一、计算机网络"></a>一、计算机网络</h2><ol>
+<li>计算机网络模型<ul>
+<li>五层因特网模型<ul>
+<li><p>应用层</p>
+</li>
+<li><p>运输层</p>
+<p>重要设备：网关</p>
+<p>主要协议：UDP和TCP</p>
+</li>
+<li><p>网络层</p>
+<p>重要设备：路由器</p>
+<p>主要协议：IP、ICMP、ARP、RAPP</p>
+</li>
+<li><p>链路层</p>
+<p>重要设备：网桥和交换机</p>
+</li>
+<li><p>物理层</p>
+</li>
+</ul>
+</li>
+<li>OSI七层模型<ul>
+<li>应用层：是用户与网络的接口</li>
+<li>表示层：表示层处理流经结点的数据编码的表示方式问题，以保证一个系统应用层发出的信息可被另一系统的应用层读出</li>
+<li>会话层：会话层主要功能是管理和协调不同主机上各种进程之间的通信（对话），即负责建立、管理和终止应用程序之间的会话</li>
+<li>运输层：传输层的作用是为上层协议提供端到端的可靠和透明的数据传输服务，包括处理差错控制和流量控制等问题</li>
+<li>网络层：网络层的任务就是选择合适的网间路由和交换结点， 确保数据及时传送。网络层将数据链路层提供的帧组成数据包</li>
+<li>链路层：数据链路层是为网络层提供服务的，解决两个相邻结点之间的通信问题</li>
+<li>物理层：它利用传输介质为数据链路层提供物理连接</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="二、应用层"><a href="#二、应用层" class="headerlink" title="二、应用层"></a>二、应用层</h2><h2 id="三、运输层"><a href="#三、运输层" class="headerlink" title="三、运输层"></a>三、运输层</h2><ol>
+<li><p>UDP</p>
+<p>UDP在发送报文段之前，发送方和接受方之间不会握手，UDP是无连接的。</p>
+<p>UDP的特性</p>
+<ul>
+<li>应用层将数据传递给UDP时，UDP会立即将数据传送给网络层，没有阻塞机制</li>
+<li>无需连接建立</li>
+<li>无连接状态，无需维持连接状态</li>
+</ul>
+</li>
+<li><p>TCP</p>
+<ol>
+<li><p>TCP的特点 </p>
+<ul>
+<li>TCP是面向连接的</li>
+<li>全双工服务：一台主机的线程A和另一台主机线程B连接后,A的应用层可以传到B，B也可以传到A</li>
+<li>TCP的连接是点对点的，单个发送，单个接受</li>
+<li></li>
+</ul>
+</li>
+<li><p>TCP的连接管理</p>
+<ul>
+<li><p>三次握手</p>
+<img src="/2021/09/29/jisuanjiwangluo/e.png" class="">
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run"><a href="#Run" class="headerlink" title="Run"></a>Run</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo server<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+<p>SYN=1：同步信号，表示建立连接，SYN=1时</p>
+<p>seq=x:表示发送端的数据包的初始序号为x;</p>
+<p>ack:确认序号，表示响应。</p>
+<p>ack=x+1:表示我方收到x为止的所有数据，希望下次发送的序号是 x+1</p>
+</li>
+<li><p>四次挥手</p>
+<img src="/2021/09/29/jisuanjiwangluo/f.png" class="">
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo generate<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre class="line-numbers language-bash" data-language="bash"><code class="language-bash">$ hexo deploy<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<ul>
+<li>FIN：=1，发起关闭信号</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>UDP和TCP区别</p>
+<ul>
+<li>TCP面向连接，UDP无连接</li>
+<li>TCP传输更加可靠，但UDP传输更快</li>
+<li>TCP是点对点，UDP可以一对多</li>
+</ul>
+</li>
+<li><p>TCP保证可靠传输的机制</p>
+<ul>
+<li>确认机制</li>
+<li>重传机制</li>
+<li>滑动窗口</li>
+</ul>
+</li>
+</ol>
+<h2 id="四、网络层"><a href="#四、网络层" class="headerlink" title="四、网络层"></a>四、网络层</h2><ol>
+<li><p>IP协议     </p>
+<p>编址分类</p>
+<ul>
+<li><p>1.0.0.0-127.255.255.255   A类</p>
+<p>子网 255.0.0.0</p>
+</li>
+<li><p>128.0.0.0-191.255.255.255   B类</p>
+<p>子网 255.255.0.0</p>
+</li>
+<li><p>192.0.0.0-233.255.255.255    C类</p>
+<p>子网 255.255.255.0 </p>
+</li>
+<li><p>多播地址  224.0.0.0-239.255.255.255</p>
+</li>
+</ul>
+</li>
+</ol>
 
                 
             </div>
@@ -524,7 +609,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://xiaoli-c.github.io/2021/09/26/hello-world/">https://xiaoli-c.github.io/2021/09/26/hello-world/</a>
+                    <a href="https://xiaoli-c.github.io/2021/09/29/jisuanjiwangluo/">https://xiaoli-c.github.io/2021/09/29/jisuanjiwangluo/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -562,8 +647,8 @@
                     
                         <div class="article-tag">
                             
-                                <a href="/tags/java/">
-                                    <span class="chip bg-color">java</span>
+                                <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA/">
+                                    <span class="chip bg-color">计算机</span>
                                 </a>
                             
                         </div>
@@ -737,13 +822,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2021/09/27/da-jian-zi-ji-de-github-ge-ren-bo-ke/">
+                <a href="/2021/09/30/zhan/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="搭建自己的GitHub个人博客">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="栈">
                         
-                        <span class="card-title">搭建自己的GitHub个人博客</span>
+                        <span class="card-title">栈</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -754,7 +839,7 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-09-27
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-09-30
                         </span>
                         <span class="publish-author">
                             
@@ -763,14 +848,6 @@
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/github/">
-                        <span class="chip bg-color">github</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -782,13 +859,13 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/09/20/xian-xing-biao/">
+                <a href="/2021/09/29/caozuoxitong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="线性表">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="操作系统">
                         
-                        <span class="card-title">线性表</span>
+                        <span class="card-title">操作系统</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -799,7 +876,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-20
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-09-29
                             </span>
                         <span class="publish-author">
                             
@@ -808,14 +885,6 @@
                             
                         </span>
                     </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
-                        <span class="chip bg-color">数据结构</span>
-                    </a>
-                    
                 </div>
                 
             </div>
