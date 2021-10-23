@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="redis(一)-数据结构和数据类型, Zh-Li">
+    <meta name="keywords" content="Mysql(二), Zh-Li">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>redis(一)-数据结构和数据类型 | Zh-Li</title>
+    <title>Mysql(二) | Zh-Li</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/12.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">redis(一)-数据结构和数据类型</h1>
+                    <h1 class="description center-align post-title">Mysql(二)</h1>
                 </div>
             </div>
         </div>
@@ -429,9 +429,13 @@
             <div class="row tag-cate">
                 <div class="col s7">
                     
-                          <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
-                          </div>
+                    <div class="article-tag">
+                        
+                            <a href="/tags/mysql/">
+                                <span class="chip bg-color">mysql</span>
+                            </a>
+                        
+                    </div>
                     
                 </div>
                 <div class="col s5 right-align">
@@ -443,7 +447,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2021-10-20
+                    2021-07-08
                 </div>
                 
 
@@ -452,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    2.6k
+                    1.5k
                 </div>
                 
 
@@ -472,212 +476,222 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、-Redis中的数据结构"><a href="#一、-Redis中的数据结构" class="headerlink" title="一、 Redis中的数据结构"></a>一、 Redis中的数据结构</h2><h3 id="1-简单动态字符串SDS"><a href="#1-简单动态字符串SDS" class="headerlink" title="1.简单动态字符串SDS"></a>1.简单动态字符串SDS</h3><h4 id="1-1-SDS的定义结构"><a href="#1-1-SDS的定义结构" class="headerlink" title="1.1.SDS的定义结构"></a>1.1.SDS的定义结构</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">sdshdr</span> <span class="token punctuation">&#123;</span>
-	<span class="token comment">// 记录buf 数组中已使用字节的数量</span>
-	<span class="token comment">//等于SDS所保存字符串的长度</span>
-    <span class="token keyword">int</span> len<span class="token punctuation">;</span>
-	<span class="token comment">//记录buf数组中未使用字节的数量</span>
-    <span class="token keyword">int</span> free<span class="token punctuation">;</span>
-	<span class="token comment">//字节数组，用于保存字符串</span>
-    <span class="token keyword">char</span> buf<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<img src="/2021/10/20/redis/SDS%E7%BB%93%E6%9E%84.png" class="">
-
+                <h2 id="一、数据库储存引擎"><a href="#一、数据库储存引擎" class="headerlink" title="一、数据库储存引擎"></a>一、数据库储存引擎</h2><ol>
+<li><p>数据库的储存引擎是一种机制，规定了应用如何存储引用数据。Mysql5.5之前默认的存储引擎是MyISAM，之后是InnoDB.</p>
+</li>
+<li><p>MyISAM和InnoDB</p>
+<p>MyISAM</p>
 <ul>
-<li>free=0,表示数组中没有未使用的字节；</li>
-<li>len=5,表示字符串的长度为5，SDS的字符串以空字符结尾，但这个空字符不计入len的长度之中。</li>
-</ul>
-<h4 id="1-2-SDS和C字符串"><a href="#1-2-SDS和C字符串" class="headerlink" title="1.2.SDS和C字符串"></a>1.2.SDS和C字符串</h4><ol>
-<li><p>通过使用SDS而不是C字符串，Redis 将获取字符串长度所需的复杂度从O(N)降低到了O(1)</p>
-<p>C字符串中没有len属性，返回字符串长度需要遍历，SDS直接返回len属性即可。</p>
-</li>
-<li><p>SDS的空间分配策略完全杜绝了发生缓冲区溢出的可能性:当SDS的API需要对SDS进行修改时，API会先检查SDS的空间是否满足修改所需的要求，如果不满足的话，API会自动将SDS的空间扩展至执行修改所需的大小，然后才执行实际的修改操作，所以使用SDS既不需要手动修改SDS的空间大小，也不会出现前面所说的缓冲区溢出问题。</p>
-</li>
-<li><p>内存分配</p>
-<ul>
-<li><p>c</p>
-<p>如果程序执行的是增长字符串的操作，比如拼接操作( append),那么在执行这个操作之前，程序需要先通过内存重分配来扩展底层数组的空间大小一如果忘了这一步就会产生缓冲区溢出。<br>如果程序执行的是缩短字符串的操作，比如截断操作( trim),那么在执行这个操作之后，程序需要通过内存重分配来释放字符串不再使用的那部分空间一如果忘了这一步就会产生内存泄漏。</p>
-</li>
-<li><p>SDS</p>
-<p>空间预分配</p>
-<p>在SDS扩展空间之前，SDS API会检查未使用空间是否足够，足够则直接使用，不足则进行分配。</p>
-<p>如果对SDS进行修改之后，SDS的长度( 也即是len属性的值)将小于1MB,那么程序分配和len属性同样大小的未使用空间，这时SDSlen属性的值将和free属性的值相同。举个例子，如果进行修改之后，SDS的len将变成13字节，那么程序也会分配13字节的未使用空间，SDS的buf数组的实际长度将变成13+13+1=27字节( 额外的一字节用于保存空字符)。<br>如果对SDS进行修改之后，SDS的长度将大于等于1MB，那么程序会分配1MB的未使用空间。举个例子，如果进行修改之后，SDS的len将变成30MB，那么程序会分配1MB的未使用空间，SDS 的buf数组的实际长度将为30MB + 1MB + lbyte。</p>
-<p>惰性空间释放<br>惰性空间释放用于优化SDS的字符串缩短操作:当SDS的API需要缩短SDS保存的字符串时，程序并不立即使用内存重分配来回收缩短后多出来的字节，而是使用free属性将这些字节的数量记录起来，并等待将来使用。与此同时，SDS也提供了相应的API,让我们可以在有需要时，真正地释放SDS的未使用空间，所以不用担心惰性空间释放策略会造成内存浪费。</p>
-</li>
+<li>采用表锁</li>
+<li>B树索引和全文索引</li>
+<li>MyISAM表在磁盘的存储文件<ul>
+<li>.frm  表结构文件</li>
+<li>.MYD  MYDATA  表的数据文件</li>
+<li>.MYI   MYIndex   表的索引文件</li>
 </ul>
 </li>
-<li><p>二进制安全</p>
-<p>SDS可以储存二进制数据，数据在写入时是什么样子，读出时还是什么样子。</p>
+</ul>
+<p>InnoDB</p>
+<ul>
+<li>采用行锁</li>
+<li>支持事务和外键</li>
+<li>B树索引和集群索引</li>
+<li>InnoDB表在磁盘的存储文件<ul>
+<li>user.frm：表结构文件</li>
+<li>user.ibd：索引和数据文件（InnoDB Data）</li>
+</ul>
+</li>
+</ul>
 </li>
 </ol>
-<h3 id="2-链表"><a href="#2-链表" class="headerlink" title="2.链表"></a>2.链表</h3><h4 id="2-1-链表节点和链表的实现"><a href="#2-1-链表节点和链表的实现" class="headerlink" title="2.1.链表节点和链表的实现"></a>2.1.链表节点和链表的实现</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">listNode</span> <span class="token punctuation">&#123;</span>
-	<span class="token comment">//前置节点</span>
-    <span class="token keyword">struct</span> <span class="token class-name">listNode</span> <span class="token operator">*</span> prev<span class="token punctuation">;</span>
-	<span class="token comment">//后置节点</span>
-    <span class="token keyword">struct</span> <span class="token class-name">listNode</span> <span class="token operator">*</span> next<span class="token punctuation">;</span>
-	<span class="token comment">//节点的值</span>
-	<span class="token keyword">void</span> <span class="token operator">*</span> value<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span> listNode<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">list</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">//表头节点</span>
-    listNode <span class="token operator">*</span> head<span class="token punctuation">;</span>
-    <span class="token comment">//表尾节点</span>
-    listNode <span class="token operator">*</span> tail<span class="token punctuation">;</span>
-    <span class="token comment">//链表所包含的节点数量</span>
-    <span class="token keyword">unsigned</span> <span class="token keyword">long</span> len<span class="token punctuation">;</span>
-    <span class="token comment">//节点值复制函数</span>
-    <span class="token keyword">void</span> <span class="token operator">*</span><span class="token punctuation">(</span><span class="token operator">*</span>dup<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>ptr<span class="token punctuation">)</span> <span class="token punctuation">;</span>
-    <span class="token comment">//节点值释放函数</span>
-    <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>free<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>ptr<span class="token punctuation">)</span> <span class="token punctuation">;</span>
-    <span class="token comment">//节点值对比函数</span>
-    <span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>match<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>ptr<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>key<span class="token punctuation">)</span> <span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> list<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h3 id="3-字典"><a href="#3-字典" class="headerlink" title="3.字典"></a>3.字典</h3><h4 id="3-1-字典的实现"><a href="#3-1-字典的实现" class="headerlink" title="3.1.字典的实现"></a>3.1.字典的实现</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">dict</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">// 类型特定函数</span>
-    dictType <span class="token operator">*</span>type<span class="token punctuation">;</span>
-    <span class="token comment">//私有数据</span>
-    <span class="token keyword">void</span> <span class="token operator">*</span>privdata<span class="token punctuation">;</span>
-    <span class="token comment">//哈希表</span>
-    dictht ht<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token punctuation">;</span>
-    <span class="token comment">// rehash 索引</span>
-    <span class="token comment">//当rehash不在进行时，值为-1</span>
-    in trehashidx<span class="token punctuation">;</span> <span class="token comment">/* rehashing not in progress' if rehashidx == -1 */</span>
-<span class="token punctuation">&#125;</span> dict<span class="token punctuation">;</span>
-<span class="token comment">//两个哈希表，只使用ht[0]，ht[1]只在ht[0]rehash的时候使用到。</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">dictType</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">//计算哈希值的函数</span>
-    <span class="token keyword">unsigned</span> <span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>hashFunction<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>key<span class="token punctuation">)</span> <span class="token punctuation">;</span>
-    <span class="token comment">//复制键的函数</span>
-    <span class="token keyword">void</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token operator">*</span>keyDup<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>privdata， <span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>key<span class="token punctuation">)</span> <span class="token punctuation">;</span>
-    <span class="token comment">//复制值的函数</span>
-    <span class="token keyword">void</span> <span class="token operator">*</span> <span class="token punctuation">(</span><span class="token operator">*</span>valDup<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>privdata<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>obj<span class="token punctuation">)</span> <span class="token punctuation">;</span>
-    <span class="token comment">//对比键的函数</span>
-    <span class="token keyword">int</span> <span class="token punctuation">(</span><span class="token operator">*</span>keyCompare<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>privdata<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>key1<span class="token punctuation">,</span> <span class="token keyword">const</span> <span class="token keyword">void</span> <span class="token operator">*</span>key2<span class="token punctuation">)</span> <span class="token punctuation">;</span>
-    <span class="token comment">//销毁键的函数</span>
-    <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>keyDestructor<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>privdata<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>key<span class="token punctuation">)</span> <span class="token punctuation">;</span>
-    <span class="token comment">//销毁值的函数</span>
-    <span class="token keyword">void</span> <span class="token punctuation">(</span><span class="token operator">*</span>valDestructor<span class="token punctuation">)</span> <span class="token punctuation">(</span><span class="token keyword">void</span> <span class="token operator">*</span>privdata<span class="token punctuation">,</span> <span class="token keyword">void</span> <span class="token operator">*</span>obj<span class="token punctuation">)</span> <span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> dictType<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">dictht</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">//哈希表数组</span>
-    dictEntry <span class="token operator">*</span><span class="token operator">*</span>table<span class="token punctuation">;</span>
-    <span class="token comment">//哈希表大小</span>
-    <span class="token keyword">unsigned</span> <span class="token number">1</span>ong size<span class="token punctuation">;</span> <span class="token punctuation">.</span>
-    <span class="token comment">//哈希表大小掩码，用于计算索引值</span>
-    <span class="token comment">//总是等于size-1</span>
-    <span class="token keyword">unsigned</span> <span class="token keyword">long</span> si zemask<span class="token punctuation">;</span>
-    <span class="token comment">//该哈希表已有节点的数量</span>
-    <span class="token keyword">unsigned</span> <span class="token number">1</span>ong used<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> dictht<span class="token punctuation">;</span>
-<span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">dictEntry</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">//键</span>
-    <span class="token keyword">void</span> <span class="token operator">*</span>key<span class="token punctuation">;</span>
-    <span class="token comment">//值</span>
-    <span class="token keyword">union</span><span class="token punctuation">&#123;</span>
-    <span class="token keyword">void</span> val<span class="token punctuation">;</span>
-    uint64_ tu64<span class="token punctuation">;</span>
-    int64_ ts64<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span> V<span class="token punctuation">;</span>
-    <span class="token comment">// 指向下个哈希表节点， 形成链表</span>
-    <span class="token keyword">struct</span> <span class="token class-name">dictEntry</span> <span class="token operator">*</span>next<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> dictEntry<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<img src="/2021/10/20/redis/dict%E7%BB%93%E6%9E%84.png" class="">
-
-<h4 id="3-2-rehash"><a href="#3-2-rehash" class="headerlink" title="3.2.rehash"></a>3.2.rehash</h4><p>​        随着操作的不断执行，哈希表保存的键值对会逐渐地增多或者减少，为了让哈希表的负载因子(loadfactor)维持在一个合理的范围之内，当哈希表保存的键值对数量太多或者太少时，程序需要对哈希表的大小进行相应的扩展或者收缩。扩展和收缩哈希表的工作可以通过执行rehash (重新散列)操作来完成，Redis 对字典的哈希表执行rehash的步骤如下:</p>
+<h2 id="二、索引"><a href="#二、索引" class="headerlink" title="二、索引"></a>二、索引</h2><ol>
+<li><p>索引的本质是一个数据结构。</p>
+</li>
+<li><p>Mysql的索引结构</p>
 <ul>
-<li><p>为字典的ht[1]哈希表分配空间，这个哈希表的空间大小取决于要执行的操作，以及ht[0]当前包含的键值对数量</p>
-<ul>
-<li>如果执行的是扩展操作，那么ht[1]的大小为第一个大于等于ht[0] .used*2的2^n(2的n次方幂);</li>
-<li>如果执行的是收缩操作，那么ht [1]的大小为第-个大于等于ht [0] .used的2^n(2的n次方幂)。</li>
+<li><p>B树索引</p>
+<p>B-Tree</p>
+<img src="/2021/07/08/mysql/Qa.png" class="">
+
+<p>B+Tree</p>
+<img src="/2021/07/08/mysql/image-20211004175244727.png" class="" title="image-20211004175244727"></li>
+<li><p>hash索引</p>
+<img src="/2021/07/08/mysql/image-20211004193746781.png" class="" title="image-20211004193746781">
+
+<p>哈希索引是基于哈希表实现，只有精确匹配索引所有列的查询才有效，对于每一行数据，存储引擎都会对所有的索引列计算一个哈希码（hash code)，哈希码是一个较小的值，大部分情况下不同的键值的行计算出来的哈希码是不同的，但是也会有例外，就是说不同列值计算出来的hash值一样的（即所谓的hash冲突），哈希索引将所有的哈希码存储在索引中，同时在哈希表中保存指向每一个数据行的指针，hash很适合做索引，为某一列或几列建立hash索引，就会利用这一列或几列的值通过一定的算法计算出一个hash值，对应一行或几行数据</p>
+</li>
+<li><p>全文索引</p>
+</li>
+<li><p>集群索引</p>
+</li>
 </ul>
 </li>
-<li><p>将保存在ht[0]中的所有键值对rehash到ht[1]上面: </p>
-<p>rehash指的是重新计算键的哈希值和索引值，然后将键值对放置到ht[1]哈希表的指定位置上。</p>
-</li>
-<li><p>当ht[0]包含的所有键值对都迁移到了ht[1]之后(ht[0]变为空表),释放ht[0]，将ht[1]设置为ht[0]，并在ht[1]新创建-一个空白哈希表，为下一次rehash做准备。</p>
-</li>
-</ul>
-<h3 id="4-跳跃表"><a href="#4-跳跃表" class="headerlink" title="4.跳跃表"></a>4.跳跃表</h3><h4 id="4-1-实现及结构"><a href="#4-1-实现及结构" class="headerlink" title="4.1.实现及结构"></a>4.1.实现及结构</h4><img src="/2021/10/20/redis/%E8%B7%B3%E8%B7%83%E8%A1%A8.png" class="">
-
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">zskiplist</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">//表头节点和表尾节点</span>
-    structz skiplistNode <span class="token operator">*</span>header<span class="token punctuation">,</span> <span class="token operator">*</span>tail<span class="token punctuation">;</span>
-    <span class="token comment">//表中节点的数量</span>
-    <span class="token keyword">unsigned</span> <span class="token keyword">long</span> length<span class="token punctuation">;</span>
-    <span class="token comment">//跳跃表中层数最大的节点的层数</span>
-    <span class="token keyword">int</span> level<span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> zskiplist<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">zskiplistNode</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">/*层，每个层两个属性：前进指针和跨度
-    	前进指针：访问向表尾方向的其他节点
-    	跨度：前进指针所指节点和当前节点的距离
-    */</span>
-    <span class="token keyword">struct</span> <span class="token class-name">zskiplistLevel</span> <span class="token punctuation">&#123;</span>
-        <span class="token comment">//前进指针</span>
-        <span class="token keyword">struct</span> <span class="token class-name">zskiplistNode</span> <span class="token operator">*</span>forward<span class="token punctuation">;</span>
-        <span class="token comment">//跨度</span>
-        <span class="token keyword">unsigned</span> <span class="token keyword">int</span> span<span class="token punctuation">;</span>
-    <span class="token punctuation">&#125;</span> level<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-    <span class="token comment">//后退指针，指向位于当前节点的前一个节点</span>
-    <span class="token keyword">struct</span> <span class="token class-name">zskiplistNode</span> <span class="token operator">*</span>backward<span class="token punctuation">;</span>
-    <span class="token comment">//分值，跳跃表中的节点各自的分值从小到大排列</span>
-    <span class="token keyword">double</span> score<span class="token punctuation">;</span>
-    <span class="token comment">//成员对象</span>
-    robj <span class="token operator">*</span>obj <span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> zskiplistNode<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<li><p>联合索引</p>
+<img src="/2021/07/08/mysql/image-20211002175058383.png" class="">
 
 <ul>
-<li><p>层</p>
-<p>跳跃表节点的level数组可以包含多个元素，每个元素都包含一个指向其他节点的指针，程序可以通过这些层来加快访问其他节点的速度，一般来说，层的数量越多，访问其他节点的速度就越快。每次创建一个新跳跃表节点的时候，程序都根据幂次定律(powerlaw,越大的数出现的概率越小)随机生成一个介于1和32之间的值作为level数组的大小，这个大小就是层的“高度”。</p>
-</li>
-<li><p>前进指针</p>
-<p>用于从表头访问节点</p>
-<p>遍历路线如虚线所示：</p>
-<img src="/2021/10/20/redis/%E8%B7%B3%E8%B7%83%E8%A1%A8%E9%81%8D%E5%8E%86.png" class=""></li>
-<li><p>跨度</p>
-<p>两个节点之间跨度越大，其距离越远，指向null的跨度都为0；</p>
-<p>跨度是用来计算在查找某个节点的排位，即将经过的节点的跨度相加。</p>
-</li>
-<li><p>后退指针</p>
-<p>从表尾向表头访问节点，每个节点的后退指针只能后退至前一个节点。</p>
-</li>
-<li><p>分值和对象</p>
-<p>节点的分值( score属性)是一个double类型的浮点数，跳跃表中的所有节点都按分值从小到大来排序。<br>节点的成员对象(obj属性)是一个指针，它指向一个字符串对象，而字符串对象则保存着一个SDS值。<br>在同一个跳跃表中，各个节点保存的成员对象必须是唯一的，但是多个节点保存的分值却可以是相同的:分值相同的节点将按照成员对象在字典序中的大小来进行排序，成员对象较小的节点会排在前面(靠近表头的方向)，而成员对象较大的节点则会排在后面(靠近表尾的方向)。</p>
+<li><p>最左匹配原则</p>
+<p>假如一个联合索引为a,b,c；则检索(a,b,c)(a,b),(a,c)用到的这个联合索引，(b,c)不用这个索引</p>
+<p>select * from table where id = a or name = b;select * from table where name=b or id=a;</p>
+<p>上述两个语句均可用到索引abc,也就是说和语句中字段的顺序无关；</p>
 </li>
 </ul>
-<h3 id="5-整数集合"><a href="#5-整数集合" class="headerlink" title="5.整数集合"></a>5.整数集合</h3><h4 id="5-1-集合的结构"><a href="#5-1-集合的结构" class="headerlink" title="5.1.集合的结构"></a>5.1.集合的结构</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">intset</span> <span class="token punctuation">&#123;</span>
-    <span class="token comment">//编码方式</span>
-    uint32_ t encoding<span class="token punctuation">;</span>
-    <span class="token comment">//集合包含的元素数量</span>
-    uint32_ t length<span class="token punctuation">;</span>
-    <span class="token comment">//保存元素的数组</span>
-    int8_ t contents<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span> intset<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</li>
+<li><p> 常用索引的情况</p>
+</li>
+<li><p>不能用索引的情况</p>
+</li>
+<li><p>索引失效</p>
+</li>
+<li><p>MyISAM和InnoDB的索引结构</p>
+<ol>
+<li><p>MyISAM</p>
+<ul>
+<li><p>MyISAM存储引擎的索引结构</p>
+<p>MyISAM表的索引文件的key为索引列的数据，value为每个数据代表的行的磁盘地址</p>
+</li>
+</ul>
+</li>
+<li><p>InnoDB</p>
+<img src="/2021/07/08/mysql/a.png" class="">
 
 <ul>
-<li>保存的类型：int16_t,int32_t,int64_t</li>
-<li>各个项在数组中从小到大排序，且没有重复项</li>
+<li><p>InnoDB存储引擎的索引结构</p>
+<p>InnoDB表的索引结构key为索引列的数据，每个key代表的整个行的数据也存储在索引表中。</p>
+</li>
 </ul>
-<h4 id="5-2-数据类型的升级"><a href="#5-2-数据类型的升级" class="headerlink" title="5.2.数据类型的升级"></a>5.2.数据类型的升级</h4><p>每当我们要将一个新元素添加到整数集合里面，并且新元素的类型比整数集合现有所有元素的类型都要长时，整数集合需要先进行升级(upgrade),然后才能将新元素添加到整数集合里面。升级整数集合并添加新元素共分为三步进行:</p>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="sql优化"><a href="#sql优化" class="headerlink" title="sql优化"></a>sql优化</h2><h4 id="查询慢sql"><a href="#查询慢sql" class="headerlink" title="查询慢sql"></a>查询慢sql</h4><h4 id="查看分析sql执行情况"><a href="#查看分析sql执行情况" class="headerlink" title="查看分析sql执行情况"></a>查看分析sql执行情况</h4><ol>
+<li><p>explain</p>
+<p>explain +  sql 语句  可以分析这条语句的执行计划，得到如下结果  </p>
+<img src="/2021/07/08/mysql/d.png" class="">
+
 <ul>
-<li>根据新元素的类型，扩展整数集合底层数组的空间大小，并为新元素分配空间。</li>
-<li>将底层数组现有的所有元素都转换成与新元素相同的类型，并将类型转换后的元素放置到正确的位上，而且在放置元素的过程中，需要继续维持底层数组的有序性质不变。</li>
-<li>将新元素添加到底层数组里面。</li>
+<li><p>select_type </p>
+<ul>
+<li>SIMPLE:简单，不使用表连接和子查询</li>
+<li>PRIMARY：主查询，外层查询</li>
+<li>UNION：UNION中的后面的查询</li>
+<li>SUBQUERY：子查询中的第一个SELECT</li>
 </ul>
-<p>数据类型不支持降级。</p>
-<h3 id="6-压缩列表"><a href="#6-压缩列表" class="headerlink" title="6.压缩列表"></a>6.压缩列表</h3>
+</li>
+<li><p>table</p>
+<p>输出结果的表</p>
+</li>
+<li><p>type</p>
+<ul>
+<li>null&gt;system&gt;const&gt;eq_ref&gt;ref&gt;range&gt;index&gt;all</li>
+<li>all:全表扫描</li>
+<li>index:遍历整个索引查询</li>
+<li>range:索引范围扫描</li>
+<li>ref: 采用非唯一索引</li>
+<li>eq_ref：采用唯一索引，每个索引只对应一条数据</li>
+<li>system\const：单表中至多只有一个匹配行</li>
+<li>null:不用访问表，直接可以得到结果</li>
+</ul>
+</li>
+<li><p>possible_keys</p>
+<p>查询时可能使用的索引</p>
+</li>
+<li><p>key</p>
+<p>查询时真正使用的索引</p>
+</li>
+<li><p>key_len</p>
+<p>使用到索引字段的长度</p>
+</li>
+<li><p>ref</p>
+</li>
+<li><p>rows</p>
+<p>扫描行数</p>
+</li>
+<li><p>Extra</p>
+<p>执行说明</p>
+</li>
+</ul>
+<p>show warnings</p>
+<p>此命令可以查看mysql的内部优化器执行的sql语句</p>
+</li>
+<li><p>show profiles</p>
+<ul>
+<li>show profiles:列出执行sql的运行时间和queryID</li>
+<li>show  profile  for query  query_ID :查看某个sql语句执行的各项具体时间</li>
+<li>show profile  cpu\all\io…  for  query query_ID  查看明细类型的时间消耗</li>
+</ul>
+</li>
+<li><p>show status</p>
+<p>SHOW STATUS命令会显示每个服务器变量的名字和值</p>
+<p><a target="_blank" rel="noopener" href="https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html">https://dev.mysql.com/doc/refman/5.7/en/server-status-variables.html</a>  列出了不同的变量含义</p>
+</li>
+<li><p>trace  分析优化器如何选择执行文件 </p>
+</li>
+</ol>
+<h4 id="sql优化措施"><a href="#sql优化措施" class="headerlink" title="sql优化措施"></a>sql优化措施</h4><ol>
+<li><p>选择正确的数据类型</p>
+<ul>
+<li>选择储存空间小的</li>
+<li>选择类型简单的</li>
+<li>避免null值存在，null值存在使得索引相关更加复杂</li>
+</ul>
+</li>
+<li><p>schema设计</p>
+<ul>
+<li><p>不要有太多的列</p>
+<p>存储引擎在工作时，将缓冲数据在服务层转换，列数过多，资源消耗大</p>
+</li>
+<li><p>不要有太多的表关联</p>
+</li>
+<li><p>不要过度使用枚举</p>
+</li>
+</ul>
+</li>
+<li><p>查询优化</p>
+<ul>
+<li><p>不要查询到不需要的数据</p>
+<ul>
+<li><p>查询不需要的记录</p>
+<p>如：select查询大量的结果，但只获取前N条记录，理想是需要几条就查几条</p>
+</li>
+<li><p>多表联查时，返回全部列，只返回需要的列最佳</p>
+</li>
+<li><p>select *</p>
+</li>
+<li><p>重复查相同的数据，可以将需要的数据查一次后缓存，不用重复查</p>
+</li>
+</ul>
+</li>
+<li></li>
+<li><p>重构sql</p>
+<ul>
+<li><p>可以将一个复杂的查询分为数个简单查询</p>
+</li>
+<li><p>切分查询</p>
+<p>将数据分段，每次完成查询的一部分</p>
+</li>
+<li><p>可能的情况下，分解关联查询，将join关联分为几个简单查询</p>
+<p>缓存效率更高</p>
+<p>减少锁的竞争</p>
+</li>
+</ul>
+</li>
+<li></li>
+<li></li>
+<li></li>
+<li><p>数据库三范式和反范式</p>
+<p>第一范式：要求表中业务字段，逻辑上不可再分</p>
+<p>第二范式：要求表中必须存在业务主键 (单一业务主键 或 联合业务主键)<br>非业务主键，必须依赖于 单一业务主键 或 全部的联合业务主键</p>
+</li>
+</ul>
+</li>
+</ol>
+<p>第三范式：要求非业务主键列不能相互依赖</p>
+<p>反范式化设计数据库，是为了用空间换时间，提高查询效率</p>
+<p><strong>第一范式（1NF）：</strong> <strong>强调的是列的原子性，即列不能够再分成其他几列。</strong>    </p>
+<p> <strong>第二范式（2NF）：</strong> <strong>首先要满足它是1NF，另外还需要包含两部分内容：一是表必须有一个主键；二是没有包含在主键中的列必须完全依赖于主键，而不能只依赖于主键的一部分。</strong></p>
+<p> <strong>第三范式（3NF）：</strong> <strong>首先是 2NF，另外非主键列必须直接依赖于主键，不能存在传递依赖。即不能存在：非主键列 A 依赖于非主键列 B，非主键列 B 依赖于主键的情况</strong></p>
+
                 
             </div>
             <hr/>
@@ -703,7 +717,7 @@
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://xiaoli-c.github.io/2021/10/20/redis/">https://xiaoli-c.github.io/2021/10/20/redis/</a>
+                    <a href="https://xiaoli-c.github.io/2021/07/08/mysql/">https://xiaoli-c.github.io/2021/07/08/mysql/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -740,7 +754,11 @@
                 <div class="post-meta__tag-list" style="display: inline-block;">
                     
                         <div class="article-tag">
-                            <span class="chip bg-color">No tag</span>
+                            
+                                <a href="/tags/mysql/">
+                                    <span class="chip bg-color">mysql</span>
+                                </a>
+                            
                         </div>
                     
                 </div>
@@ -912,13 +930,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2021/10/20/redis1/">
+                <a href="/2021/07/10/mysql2/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="redis(二)-">
+                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="MySQL(三)">
                         
-                        <span class="card-title">redis(二)-</span>
+                        <span class="card-title">MySQL(三)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -929,7 +947,7 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-10-20
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-07-10
                         </span>
                         <span class="publish-author">
                             
@@ -938,6 +956,14 @@
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/mysql/">
+                        <span class="chip bg-color">mysql</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -949,13 +975,13 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/10/09/linuxanzhuang/">
+                <a href="/2021/07/05/mysql1/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/20.jpg" class="responsive-img" alt="linuxanzhuang">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Mysql(一)">
                         
-                        <span class="card-title">linuxanzhuang</span>
+                        <span class="card-title">Mysql(一)</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -966,7 +992,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-09
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-07-05
                             </span>
                         <span class="publish-author">
                             
@@ -975,6 +1001,14 @@
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/mysql/">
+                        <span class="chip bg-color">mysql</span>
+                    </a>
+                    
                 </div>
                 
             </div>
