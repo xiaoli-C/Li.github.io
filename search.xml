@@ -4,6 +4,58 @@
   
     
     <entry>
+      <title>collection</title>
+      <link href="/2021/10/23/collection/"/>
+      <url>/2021/10/23/collection/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>java5</title>
+      <link href="/2021/10/23/java5/"/>
+      <url>/2021/10/23/java5/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>java4</title>
+      <link href="/2021/10/23/java4/"/>
+      <url>/2021/10/23/java4/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>java3</title>
+      <link href="/2021/10/23/java3/"/>
+      <url>/2021/10/23/java3/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>redis2</title>
       <link href="/2021/10/20/redis2/"/>
       <url>/2021/10/20/redis2/</url>
@@ -21,7 +73,7 @@
       <link href="/2021/10/20/redis1/"/>
       <url>/2021/10/20/redis1/</url>
       
-        <content type="html"><![CDATA[<h2 id="一、数据库"><a href="#一、数据库" class="headerlink" title="一、数据库"></a>一、数据库</h2>]]></content>
+        <content type="html"><![CDATA[<h2 id="一、数据库"><a href="#一、数据库" class="headerlink" title="一、数据库"></a>一、数据库</h2><h3 id="1-1-redis服务器"><a href="#1-1-redis服务器" class="headerlink" title="1.1.redis服务器"></a>1.1.redis服务器</h3><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">struct</span> <span class="token class-name">redisServer</span><span class="token punctuation">&#123;</span>    <span class="token comment">//一个数组，保存着服务器中的所有数据库</span>    redisDb <span class="token operator">*</span>db<span class="token punctuation">;</span>    <span class="token comment">//数据库数量，该值默认是16</span>    <span class="token keyword">int</span> dbnum<span class="token punctuation">;</span>    <span class="token comment">//...</span><span class="token punctuation">&#125;</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><h3 id="1-2-redis数据库"><a href="#1-2-redis数据库" class="headerlink" title="1.2.redis数据库"></a>1.2.redis数据库</h3><h4 id="1-2-1-数据库结构"><a href="#1-2-1-数据库结构" class="headerlink" title="1.2.1.数据库结构"></a>1.2.1.数据库结构</h4><pre class="line-numbers language-c" data-language="c"><code class="language-c"><span class="token keyword">typedef</span> <span class="token keyword">struct</span> <span class="token class-name">redisDb</span> <span class="token punctuation">&#123;</span>    <span class="token comment">//</span>    <span class="token comment">//数据库键空间，保存着数据库中的所有键值对</span>    dict <span class="token operator">*</span>dict<span class="token punctuation">;</span>    <span class="token comment">//...</span><span class="token punctuation">&#125;</span> redisDb<span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre><ul><li>键空间的键也就是数据库的键，每个键都是一个字符 串对象</li><li>键空间的值也就是数据库的值，每个值可以是字符串对象、列表对象、哈希表对象、</li></ul><h4 id="1-2-2-数据库命令操作"><a href="#1-2-2-数据库命令操作" class="headerlink" title="1.2.2.数据库命令操作"></a>1.2.2.数据库命令操作</h4><p>redis数据库的键空间就是一个字典，所有操作都是对键空间字典做的。</p><h2 id="二、持久化"><a href="#二、持久化" class="headerlink" title="二、持久化"></a>二、持久化</h2><h3 id="2-1-RDB持久化"><a href="#2-1-RDB持久化" class="headerlink" title="2.1.RDB持久化"></a>2.1.RDB持久化</h3><h4 id="2-1-1"><a href="#2-1-1" class="headerlink" title="2.1.1"></a>2.1.1</h4><h3 id="2-2-AOF持久化"><a href="#2-2-AOF持久化" class="headerlink" title="2.2.AOF持久化"></a>2.2.AOF持久化</h3>]]></content>
       
       
       
@@ -185,19 +237,6 @@
     
     
     <entry>
-      <title>常用集合</title>
-      <link href="/2021/09/27/chang-yong-ji-he/"/>
-      <url>/2021/09/27/chang-yong-ji-he/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>常用算法</title>
       <link href="/2021/09/27/chang-yong-suan-fa/"/>
       <url>/2021/09/27/chang-yong-suan-fa/</url>
@@ -285,6 +324,57 @@
         <tags>
             
             <tag> 计算机 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>java2</title>
+      <link href="/2021/06/22/java2/"/>
+      <url>/2021/06/22/java2/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>java-面向对象</title>
+      <link href="/2021/06/20/java1/"/>
+      <url>/2021/06/20/java1/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>java-基础</title>
+      <link href="/2021/06/19/java/"/>
+      <url>/2021/06/19/java/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> java </tag>
             
         </tags>
       
