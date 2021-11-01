@@ -393,30 +393,11 @@
     
     
     <entry>
-      <title>java-面向对象</title>
-      <link href="/2021/06/20/java1/"/>
-      <url>/2021/06/20/java1/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      
-        <tags>
-            
-            <tag> java </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>java-基础</title>
       <link href="/2021/06/19/java/"/>
       <url>/2021/06/19/java/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<h2 id="一、基础"><a href="#一、基础" class="headerlink" title="一、基础"></a>一、基础</h2><h3 id="1-main方法"><a href="#1-main方法" class="headerlink" title="1.main方法"></a>1.main方法</h3><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">&#123;</span><span class="token punctuation">&#125;</span><span class="token comment">/*main()方法必须是public吗？jdk1.4后必须是public*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><h3 id="2-数据类型"><a href="#2-数据类型" class="headerlink" title="2.数据类型"></a>2.数据类型</h3><h4 id="2-1-整型"><a href="#2-1-整型" class="headerlink" title="2.1.整型"></a>2.1.整型</h4><img src="/2021/06/19/java/%E6%95%B4%E5%BD%A2.png" class="" title="image-20211030175430890"><ul><li>整型的范围和运行java代码的机器无关</li><li>0b或0B前缀代表二进制，如0b1001是9；0前缀代表八进制；0x或0X代表十六进制</li></ul><h4 id="2-2-浮点类型"><a href="#2-2-浮点类型" class="headerlink" title="2.2.浮点类型"></a>2.2.浮点类型</h4><h4 id=""><a href="#" class="headerlink" title=""></a><img src="/2021/06/19/java/%E6%B5%AE%E7%82%B9.png" class="" title="image-20211030180158960"></h4><ul><li>float数值有后缀f或F；double数值 后缀为d或D；没有f或F后缀的默认是double类型；</li><li>三个特殊的浮点数值；<ul><li>正无穷大；1/0；常量Double.POSITIVE_INFINITY代表;</li><li>负无穷大；-1/0; 常量Double.NEGATIVE_INFINITY代表;</li><li>NaN,不是一个数字；0/0; 常量Double.NaN代表;</li></ul></li></ul><h4 id="2-3-char和boolean类型"><a href="#2-3-char和boolean类型" class="headerlink" title="2.3.char和boolean类型"></a>2.3.char和boolean类型</h4><ul><li>char字符类型，要用单引号引起来  </li></ul><h3 id="3-运算符"><a href="#3-运算符" class="headerlink" title="3.运算符"></a>3.运算符</h3><h4 id="3-1-浮点数据的精度"><a href="#3-1-浮点数据的精度" class="headerlink" title="3.1. 浮点数据的精度"></a>3.1. 浮点数据的精度</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">double</span> w<span class="token operator">=</span>x<span class="token operator">*</span>y<span class="token operator">/</span>z<span class="token punctuation">;</span><span class="token comment">/*不同的计算方式&lt;1.处理器计算x *y,并且将结果存储在80位的寄存器中，再除以z并将结果截断为64位。得到更精确的计算结果，并且还能够避免产生指数溢出。&lt;2.所有的中间计算过程进行截断，使用strictfp关键字标记的方法必须使用严格的浮点计算*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre><h4 id="3-2-数值类型的转换"><a href="#3-2-数值类型的转换" class="headerlink" title="3.2.数值类型的转换"></a>3.2.数值类型的转换</h4><ul><li>如果两个操作数中有一个是double类型，另一个操作数就会转换为double类型。</li><li>否则，如果其中一个操作数是float类型，另一个操作数将会转换为float 类型。</li><li>否则，如果其中-个操作数是long类型，另一个操作数将会转换为long类型。</li><li>否则，两个操作数都将被转换为int类型。</li></ul>]]></content>
       
       
       
