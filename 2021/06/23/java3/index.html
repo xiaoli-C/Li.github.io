@@ -456,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    0
+                    3.2k
                 </div>
                 
 
@@ -476,7 +476,282 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                
+                <h2 id="一、"><a href="#一、" class="headerlink" title="一、"></a>一、</h2><p>基础知识</p>
+<p>&lt;1线程的特性</p>
+<p>原子性:所有操作要不全部成功要不全部失败</p>
+<p>可见性：在一个线程上对变量的修改，立即能在另一个线程上可见</p>
+<p>有序行：每个线程的代码都是按顺序执行的</p>
+<p>&lt;2并行，并发，串行</p>
+<p>并行：多个CPU处理多个任务，真正意义上的同时进行</p>
+<p>并发：多个任务在同一CPU上按时间片交替一次进行，逻辑上是同时进行</p>
+<p>串行：多个任务在CPU上按照顺序一次执行</p>
+<p>&lt;3线程优点：提高CPU利用率，提高效率  缺点：安全问题</p>
+<p>&lt;4线程和进程</p>
+<p>进程是系统资源分配的单位，而线程是任务调度器的单位</p>
+<p>一个进程至少包含一个线程，也可包含多个进程</p>
+<p>多个进程之间的资源分配互不影响，同一进程的多个线程之间相互影响</p>
+<p>&lt;5上下文切换</p>
+<p>一个进程在CPU上时间片用完进入就绪状态，由另一个线程执行，是一次上下文切换 </p>
+<p>1.线程对象的状态</p>
+<p>​    新建状态 线程还没开始运行</p>
+<p>​    就绪状态 争夺时间片的状态</p>
+<p>​    运行状态 线程运行</p>
+<p>​    阻塞状态/等待状态 线程暂时停止运行，直到线程重新被激活。</p>
+<p>​    死亡状态 run结束，正常终止。或者出现异常，意外死亡。</p>
+<img src="/2021/06/23/java3/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%81.png" class="">
+
+<img src="/2021/06/23/java3/%E7%BA%BF%E7%A8%8B%E7%8A%B6%E6%80%812.png" class="">
+
+<p>2.实现线程的方法 </p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//第一种 编写一个类继承Thread，重写run方法</span>
+
+    <span class="token keyword">class</span> <span class="token class-name">MyThread</span> <span class="token keyword">extends</span> <span class="token class-name">Thread</span><span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+	<span class="token class-name">MyThread</span> mt <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//创建一个线程类</span>
+	mt<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// 开辟一块新的栈空间，并且调用run方法,此时两个栈同时进行，即两个循环同时进行</span>
+
+	
+<span class="token comment">//第二种 编写一个类实现Runnable接口,可以用匿名内部类的方法实现</span>
+    <span class="token keyword">class</span> <span class="token class-name">MyRunnable</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span><span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+	<span class="token class-name">Thread</span> tr <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">MyRunnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	tr<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+	<span class="token comment">//内部类实现</span>
+    <span class="token class-name">Thread</span> t <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Runnable</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+        <span class="token punctuation">&#125;</span>
+     <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	t<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">//第三种 实现Callable接口获得一个FutureTask重写call方法，作为参数传入线程，这种方法可以返回值</span>
+
+    <span class="token class-name">FutureTask</span> futureTask <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FutureTask</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Callable</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token annotation punctuation">@Override</span>
+        <span class="token keyword">public</span> <span class="token class-name">Object</span> <span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> <span class="token class-name">Exception</span> <span class="token punctuation">&#123;</span>  <span class="token comment">//匿名内部类</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+	<span class="token class-name">Thread</span> th <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>futuretask<span class="token punctuation">)</span><span class="token punctuation">;</span>
+	th<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+futureTask<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 调用get方法会得到子线程的返回值，不过这会造成主线程阻塞，必须等到子线程结束得到返回值，主线程才会继续。
+
+<span class="token comment">//run() 和 start()</span>
+
+<span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法代表开启线程，新建一个线程，线程进入新建状态，调用<span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法，线程进入就绪状态，当分到时间片后，自动调用<span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法执行。单独执行<span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span>方法，相当于将线程当做一个main方法，在此run方法结束之前，其他线程不会执行。start方法执行一次，就可启动线程
+<span class="token class-name">Runnable</span>与<span class="token class-name">Callable</span>
+<span class="token class-name">Runnable</span> 接口 run 方法无返回值；<span class="token class-name">Callable</span> 接口 call 方法有返回值，是个泛型，和<span class="token class-name">Future</span>、<span class="token class-name">FutureTask</span>配合可以用来获取异步执行的结果
+<span class="token class-name">Runnable</span> 接口 run 方法只能抛出运行时异常，且无法捕获处理；<span class="token class-name">Callable</span> 接口 call 方法允许抛出异常，可以获 	取异常信息 注：<span class="token class-name">Callalbe</span>接口支持返回执行结果，需要调用<span class="token class-name">FutureTask</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>得到，此方法会阻塞主进程的继续往下执行，如果不调用不会阻塞。
+<span class="token class-name">Future</span> 和 <span class="token class-name">Futuretask</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>3.线程的方法</p>
+<p>获得当前线程static Thread currentThread() ，在main方法中使用该方法，返回main方法的线程，在其他run方法中使用，返回其他线程</p>
+<p>获得线程名字   String getName()  线程对象.getName()</p>
+<p>修改线程名字   void setName(String name)</p>
+<p>  当前线程进入休眠状态</p>
+<p>​      static void sleep(long millis)  //静态方法，出现在哪个线程里，哪个线程睡眠，进入阻塞状态</p>
+<p>sleep()与wait()方法</p>
+<p>sleep是Thread的静态方法，wait是Object的方法</p>
+<p>sleep不会释放锁，而wait会释放锁</p>
+<p>sleep多用于暂停线程，而wait用于通信交流</p>
+<p>sleep在时间到会自动苏醒，wait需要notify唤醒</p>
+<p> 获得线程的状态</p>
+<p>NEW,RUNNABLE,BLOCKED,WAITONG,TIMED_WAITING,TERMINATED之一</p>
+<p>中断线程</p>
+<p>void interrupt()  // 请求中断线程</p>
+<p>&lt;1调用此方法之后，将会设置该线程的中断状态位，即设置为true，中断的结果线程是死亡、等待新的任务或是继续运行，线程可以自主选择在合适的时候处理该中断请求，也可以不理会该请求，就像这个线程没有被中断一样。线程会不时地检测这个中断标示位，以判断线程是否应该被中断（中断标示值是否为true）。它并不像stop方法那样会中断一个正在运行的线程。</p>
+<p>&lt;2 当线程处于阻塞状态时，调用此方法之后，会抛出InterruptedException</p>
+<pre><code>  boolean isInterrupted()  检测线程是否为中断状态
+</code></pre>
+<p>static boolean interrupted()  判断当前线程是否被中断，断返回true，并且清除中断状态</p>
+<p>​     终止线程的方法</p>
+<p>​      void stop() 已过时，不建议使用</p>
+<p>设置标记：给线程类添加一个标识符，通过修改这个标识符，来控制是否终止</p>
+<p>boolean run = true;  //当需要关闭时，将run改为false</p>
+<p>  @Override</p>
+<p>  public void run() {</p>
+<p>​      for(int i=0;i&lt;100;i++){</p>
+<p>​        if(run) {</p>
+<p>​          try {</p>
+<p>​            Thread.sleep(1000);</p>
+<p>​          } catch (InterruptedException e) {</p>
+<p>​            e.printStackTrace();</p>
+<p>​          }</p>
+<p>​          System.out.println(i);</p>
+<p>​        }else{</p>
+<p>​          return;</p>
+<p>​        }</p>
+<p>​      }</p>
+<p>  }</p>
+<p>Interrupt：&lt;1 类似设置标记，interrupt本身就是一个标记</p>
+<p>&lt;2 根据阻塞状态调用会抛出异常的原理，终止</p>
+<p>wait(), notify(), notifyAll() </p>
+<p>这三个都是Object的方法，由对象调用，在Object中的方法，使得所有类都可成为锁</p>
+<p>当某同步块以某对象为锁，当此对象调用wait方法时，该同步块即刻释放锁</p>
+<p>当某对象调用notify方法时，会使在等待此对象锁的线程进入就绪状态，但占用此锁的线程不会释放锁</p>
+<p>4.线程的调度</p>
+<p>常见的线程调度模型</p>
+<p>​        抢占式调度模型：线程的优先级比较高，抢到的CPU时间片的概率就高一些/多一些。</p>
+<p>​        均分式调度模型：平均分配CPU时间片。每个线程占有的CPU时间片时间长度一样。</p>
+<p>线程有优先级 （最低优先级1；默认优先级是5；最高优先级10）</p>
+<p>线程优先级决定线程抢占cpu时间片的概率，优先级越高，概率越高</p>
+<p>int getPriority()  获得线程优先级</p>
+<p>void setPriority(int newPriority)  改变线程优先级</p>
+<p>线程让位:当前正在执行的线程暂停一次(礼让)，允许其他线程执行，不阻塞，线程进入就绪状态，如果没有其他等待执行的线程，这个时候当前线程就会马上恢复执行</p>
+<p>static void yield()  静态方法 暂停线程，使线程回到就绪状态</p>
+<p>线程合并:调用该方法的线程强制执行完成，其它线程处于阻塞状态，该线程执行完毕，其它线程再执行</p>
+<p>void join()  线程对象在其他线程中调用，其他线程进入阻塞状态，执行该线程对象到结束，接着执行其他线程</p>
+<pre><code>   线程合并并不是两个栈合并到一个栈中，而是两个栈发生等待关系，调用了join()的栈会先执行，其他栈会等待
+</code></pre>
+<p>5.线程安全</p>
+<p>编程模型</p>
+<p>异步编程模型：各自执行各自的，多线程并发</p>
+<p>​        同步编程模型：两个线程之间发生了等待关系，必须其中一个执行完毕另一个才可以执行，这就是同步编程模型。</p>
+<p>​        </p>
+<p>多线程不安全：    </p>
+<p>​    多线程并发</p>
+<p>​    有共享数据</p>
+<p>​    要修改数据    </p>
+<p>  如何解决：</p>
+<p>​    线程同步机制(线程排队)</p>
+<p>保证原子性  锁和同步</p>
+<p>synchronized(){}</p>
+<p>​    在括号中填的是，共享对象，当线程运行到此处会判断自己是否共享此对象，如果共享且其他线程占用对象锁，需要排队，如果没有则占用对象锁，开始运行</p>
+<p>​    每一个对象都有一个对象锁，一把锁只能一个人来开</p>
+<p>synchronized的三种写法</p>
+<p>​    1.synchronized(){}  同步代码块</p>
+<p>​    2.synchronized 关键字写在实例方法中，那么共享对象自动是this 同步方法</p>
+<p>同步方法与同步块哪个更好？</p>
+<p>同步范围越小越好，同步块范围较小，所以同步块更好</p>
+<p>​    3.在静态方法上使用，那么就会找类锁来执行。对象锁是一个对象一把，类锁只有一把</p>
+<pre class="line-numbers language-none"><code class="language-none">死锁情况
+        出现synchronized()&#123;&#125; 嵌套
+        如下面例子
+            public void doSome()&#123;             调用此方法首先锁住 对象Obj1 再锁住obj2 然后执行下面代码，之后结束
+                synchronized(obj1)&#123;
+                    try &#123;
+                        Thread.sleep(1000);
+                    &#125; catch (InterruptedException e) &#123;
+                        e.printStackTrace();
+                    &#125;
+                    synchronized(obj2)&#123;
+                        System.out.println(&quot;doSome begin&quot;);
+                    &#125;
+                &#125;
+             &#125;
+
+            public void others()&#123;
+                synchronized (obj2)&#123;          调用此方法首先锁住 对象Obj2 再锁住obj1 然后执行下面代码，之后结束
+                   synchronized (obj1)&#123;
+                        System.out.println(&quot;others begin&quot;);
+                   &#125;
+                &#125;
+            &#125;
+
+            当两个线程同时执行doSome和others 两个方法 doSome 方法已经锁住 Object1，线程休息了1秒，此时另一个线程执行了others方法，
+            锁住了obj2，接下来 doSome 需要锁 obj2 而此时 obj2 已经在另一个线程被锁住，doSome 只有等 另一个线程中的others 执行完，
+            释放obj2锁，而others 要执行完才可以释放obj2锁，那么others要执行完，必须锁住obj1，此时obj1锁在doSome，所以造成了死锁
+            *****重要的是 死锁不会报错
+            所以  尽量避免 synchronized 嵌套<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>4、如果使用局部变量的话：</p>
+<p>​    建议使用：StringBuilder。</p>
+<p>​    因为局部变量不存在线程安全问题。选择StringBuilder。</p>
+<p>​    StringBuffer效率比较低。</p>
+<p>​    ArrayList是非线程安全的。</p>
+<p>​    Vector是线程安全的。</p>
+<p>​    HashMap HashSet是非线程安全的。</p>
+<p>​    Hashtable是线程安全的。</p>
+<p>6.守护线程</p>
+<p>.1、守护线程</p>
+<p>​        java语言中线程分为两大类：</p>
+<p>​            一类是：用户线程 主线程main方法是一个用户线程。</p>
+<p>​            一类是：守护线程（后台线程）其中具有代表性的就是：垃圾回收线程（守护线程）。</p>
+<p>​        守护线程的特点：</p>
+<p>​            一般守护线程是一个死循环，所有的用户线程只要结束，守护线程自动结束。</p>
+<p>​        守护线程用在什么地方呢？</p>
+<p>​            每天00:00的时候系统数据自动备份。需要使用到定时器，并且我们可以将定时器设置为守护线程。</p>
+<p>​    1.2、定时器</p>
+<p>​        定时器的作用：</p>
+<p>​            间隔特定的时间，执行特定的程序。</p>
+<p>​            eg:每周要进行银行账户的总账操作。每天要进行数据的备份操作。</p>
+<p>​        java中其实可以采用多种方式实现：</p>
+<p>可以使用sleep方法，睡眠，设置睡眠时间，每到时间点醒来，执行任务。这种方式是最原始的定时器。</p>
+<p>​            在java的类库中已经写好了一个定时器：java.util.Timer，可以直接拿来用。</p>
+<p>​            不过，这种方式在目前的开发中也很少用，因为现在有很多高级框架都是支持定时任务的。</p>
+<p>在实际的开发中，目前使用较多的是Spring框架中提供的SpringTask框架，这个框架只要进行简单的配置，就可以完成定时器的任务。</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token number">7</span>、生产者和消费者模式
+    生产线程负责生产，消费线程负责销售，两个线程要达到平衡；通过 wait 和 notify 方法 是<span class="token class-name">Object</span> 的方法；要实现 线程同步
+    <span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  使正在某对象上活跃的线程进入等待，并释放掉对象锁
+    <span class="token function">notify</span><span class="token punctuation">(</span><span class="token punctuation">)</span> 使等待某状态的线程重新进入就绪状态，但 不会释放被占用的对象锁；
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">WaitAndNotify</span>  <span class="token punctuation">&#123;</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token class-name">List</span> list <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Thread</span> th1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token function">MT01</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token class-name">Thread</span> th2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token function">MT02</span><span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        th1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        th2<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">class</span> MT01 <span class="token keyword">implements</span> <span class="token class-name">Runnable</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token class-name">List</span> list<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token function">MT01</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token function">MT01</span><span class="token punctuation">(</span><span class="token class-name">List</span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>list <span class="token operator">=</span> list<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+      <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>list<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">></span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                        list<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+                list<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"生产了"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                list<span class="token punctuation">.</span><span class="token function">notifyAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+        <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">class</span> MT02 <span class="token keyword">implements</span> <span class="token class-name">Runnable</span><span class="token punctuation">&#123;</span>
+    <span class="token keyword">private</span> <span class="token class-name">List</span> list<span class="token punctuation">;</span>
+    <span class="token keyword">public</span> <span class="token function">MT02</span><span class="token punctuation">(</span><span class="token class-name">List</span> list<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>list <span class="token operator">=</span> list<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token keyword">public</span> <span class="token function">MT02</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token punctuation">&#125;</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+       <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>list<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+            <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>list<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+                    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+                        list<span class="token punctuation">.</span><span class="token function">wait</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InterruptedException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+                        e<span class="token punctuation">.</span><span class="token function">printStackTrace</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                    <span class="token punctuation">&#125;</span>
+                <span class="token punctuation">&#125;</span>
+                list<span class="token punctuation">.</span><span class="token function">remove</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token class-name">System</span><span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token class-name">Thread</span><span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span><span class="token string">"消费了"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                list<span class="token punctuation">.</span><span class="token function">notifyAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">&#125;</span>
+       <span class="token punctuation">&#125;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
                 
             </div>
             <hr/>
@@ -940,7 +1215,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">24.3k</span>&nbsp;字
+                class="white-color">38.7k</span>&nbsp;字
             
             
             
