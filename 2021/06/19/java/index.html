@@ -456,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    413
+                    751
                 </div>
                 
 
@@ -512,7 +512,51 @@
 <li>否则，如果其中-个操作数是long类型，另一个操作数将会转换为long类型。</li>
 <li>否则，两个操作数都将被转换为int类型。</li>
 </ul>
+<h4 id="3-3-boolean运算符"><a href="#3-3-boolean运算符" class="headerlink" title="3.3.boolean运算符"></a>3.3.boolean运算符</h4><p>&amp;&amp;、||</p>
+<p>只要“||”前面为false,不管“||”后面是true还是false，都返回“||”后面的值。只要“||”前面为true,不管“||”后面是true还是false，都返回“||”前面的值。</p>
+<p>只要“&amp;&amp;”前面是false，无论“&amp;&amp;”后面是true还是false，结果都将返“&amp;&amp;”前面的值;只要“&amp;&amp;”前面是true，无论“&amp;&amp;”后面是true还是false，结果都将返“&amp;&amp;”后面的值;</p>
+<h4 id="3-4-位运算符"><a href="#3-4-位运算符" class="headerlink" title="3.4.位运算符"></a>3.4.位运算符</h4><p>&amp;、|、^、~、&gt;&gt;、&lt;&lt;</p>
+<p>a&amp;b是把a和b都转换成二进制数然后再进行与的运算</p>
+<img src="/2021/06/19/java/%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6.png" class="">
 
+
+
+<h3 id="4-控制流程"><a href="#4-控制流程" class="headerlink" title="4.控制流程"></a>4.控制流程</h3><h4 id="4-1-if"><a href="#4-1-if" class="headerlink" title="4.1.if"></a>4.1.if</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">if</span><span class="token punctuation">(</span>布尔表达式<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//执行代码</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">if</span><span class="token punctuation">(</span>布尔表达式<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//执行代码</span>
+<span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//执行代码</span>
+<span class="token punctuation">&#125;</span>
+
+<span class="token keyword">if</span><span class="token punctuation">(</span>布尔表达式<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//执行代码</span>
+<span class="token punctuation">&#125;</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>布尔表达式<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//执行代码</span>
+<span class="token punctuation">&#125;</span><span class="token keyword">else</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//执行代码</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="4-2-switch"><a href="#4-2-switch" class="headerlink" title="4.2.switch"></a>4.2.switch</h4><p>switch case语句判断一个变量与一系列值中某个值是否相等，每个值称为一个分支。</p>
+<p>switch case语句中的变量类型可以是：byte、short、int、String</p>
+<p>同时case标签必须为字符串常量或者字面量</p>
+<img src="/2021/06/19/java/Switch.png" class="">
+
+<h4 id="4-3-while"><a href="#4-3-while" class="headerlink" title="4.3.while"></a>4.3.while</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">while</span><span class="token punctuation">(</span>布尔表达式<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//循环内容</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="4-4-do…while"><a href="#4-4-do…while" class="headerlink" title="4.4.do…while"></a>4.4.do…while</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">do</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//循环内容</span>
+<span class="token punctuation">&#125;</span><span class="token keyword">while</span><span class="token punctuation">(</span>布尔表达式<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="4-5-for"><a href="#4-5-for" class="headerlink" title="4.5.for"></a>4.5.for</h4><pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">for</span><span class="token punctuation">(</span>初始化；布尔表达式；更新<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+    <span class="token comment">//执行代码</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="4-6-中断控制语句"><a href="#4-6-中断控制语句" class="headerlink" title="4.6.中断控制语句"></a>4.6.中断控制语句</h4>
                 
             </div>
             <hr/>
@@ -793,16 +837,16 @@
         
         <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge right-badge text-color">
-                Current&nbsp;<i class="far fa-dot-circle"></i>
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/06/19/java/">
+                <a href="/2020/12/10/computernetworking4/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="java-基础">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="Socket网络编程">
                         
-                        <span class="card-title">java-基础</span>
+                        <span class="card-title">Socket网络编程</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -813,7 +857,7 @@
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-06-19
+                                <i class="far fa-clock fa-fw icon-date"></i>2020-12-10
                             </span>
                         <span class="publish-author">
                             
@@ -822,15 +866,6 @@
                             
                         </span>
                     </div>
-                </div>
-
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/java/">
-                        <span class="chip bg-color">java</span>
-                    </a>
-                    
                 </div>
                 
             </div>
@@ -968,7 +1003,7 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2021</span>
+                <span id="year">2021-2022</span>
             
             <span id="year">2021</span>
             <a href="/about" target="_blank">John Doe</a>
@@ -977,7 +1012,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">38.7k</span>&nbsp;字
+                class="white-color">70.3k</span>&nbsp;字
             
             
             

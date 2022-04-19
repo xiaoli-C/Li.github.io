@@ -456,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    2.3k
+                    2.6k
                 </div>
                 
 
@@ -476,7 +476,24 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、Mysql概述"><a href="#一、Mysql概述" class="headerlink" title="一、Mysql概述"></a>一、Mysql概述</h2><h2 id="二、基准测试"><a href="#二、基准测试" class="headerlink" title="二、基准测试"></a>二、基准测试</h2><ol>
+                <h2 id="一、Mysql概述"><a href="#一、Mysql概述" class="headerlink" title="一、Mysql概述"></a>一、Mysql概述</h2><p>常用mysql命令行命令</p>
+<p>&lt;1.启动MYSQL服务  net start mysql</p>
+<p>停止MYSQL服务  net stop mysql</p>
+<p>&lt;2 . 在命令行中登陆MYSQL控制台 </p>
+<p>  语法格式 mysql –user=root –password=123456 或 mysql –uroot –p123456</p>
+<p>&lt;3 . 进入MYSQL命令行工具后 , 使用status; 或/s 查看运行环境信息</p>
+<p>&lt;4 .显示所有数据库 : show databases;</p>
+<pre><code>   &lt;5 .创建属于我们自己的数据库:     create database DB_name; 
+</code></pre>
+<p>&lt;6 .切换数据库的语法 : use DB_name;</p>
+<p>&lt;7 .显示数据库中的所有表 : show tables;</p>
+<p>&lt;8.初始化数据 ：source sql脚本的绝对路径；</p>
+<p>文件以sql结尾，称为“sql脚本”。当一个文件的扩展名是.sql，并且该文件中编写了大量的sql语句，我们称这样的文件为sql脚本。</p>
+<p>​    注意：直接使用source命令可以执行sql脚本。sql脚本中的数据量太大的时候，无法打开，请使用source命令完成初始化。</p>
+<p>&lt;9 .显示某个表创建时的全部信息 : show create table table_name;</p>
+<p>&lt;10 .查看表的具体属性信息及表中各字段的描述：Describe table_name; 缩写形式 : desc table_name;</p>
+<p>&lt;11.删除数据库 drop database bjpowernode;</p>
+<h2 id="二、基准测试"><a href="#二、基准测试" class="headerlink" title="二、基准测试"></a>二、基准测试</h2><ol>
 <li><p>基准测试策略</p>
 <p>集成式：针对整个系统测试</p>
 <p>单组件式：针对Mysql单独测试</p>
@@ -1298,7 +1315,7 @@ SQLSTATE <span class="token punctuation">[</span><span class="token keyword">VAL
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2021</span>
+                <span id="year">2021-2022</span>
             
             <span id="year">2021</span>
             <a href="/about" target="_blank">John Doe</a>
@@ -1307,7 +1324,7 @@ SQLSTATE <span class="token punctuation">[</span><span class="token keyword">VAL
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">38.7k</span>&nbsp;字
+                class="white-color">70.3k</span>&nbsp;字
             
             
             

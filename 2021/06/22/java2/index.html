@@ -456,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    833
+                    922
                 </div>
                 
 
@@ -486,37 +486,71 @@
 <p>编译时异常和运行时异常，都是发生在运 行阶段。编译阶段异常是不会发生的。编译时异常一般发生的概率比较高。运行时异常一般发生的概率比较低。</p>
 <p>编译时异常又称 受检异常(CheckedException),受控异常</p>
 <p>运行时异常又称 未受检异常(UnCheckedException),非受控异常</p>
-<h2 id="2、异常的处理方式"><a href="#2、异常的处理方式" class="headerlink" title="2、异常的处理方式"></a>2、异常的处理方式</h2><p>&lt;1 抛出</p>
-<p>​    ①throws  用来声明一个方法可能产生的所有异常，不做任何处理而是将异常往上传，谁调用就抛给谁。</p>
-<p>​          向调用者抛出异常，调用者必须要处理；当异常抛向main方法必须处理，否则main抛给JVM，程序不能执行。</p>
-<p>​    ②throw  用来抛出一个具体的异常类型。用在方法体内，跟一个异常对象名， 表示抛出异常 ，由方法体内的语句处理，</p>
-<pre><code>     执行throw则一定抛出了某种异常  
-</code></pre>
-<p>throws 和 thow 的区别</p>
-<p>throws出现在方法函数头；而throw出现在函数体。</p>
-<p>throws表示出现异常的一种可能性，并不一定会发生这些异常；throw则是抛出了异常，执行throw则一定抛出了某种异常。</p>
-<p>&lt;2 捕获</p>
-<p>​    try{   ①将要执行的语句放在try中，catch( )中填要捕获的异常引用，{ }中写捕获异常之后的操作</p>
-<p>​    ……   ②当try语句块中任何代码抛出了异常，则程序将跳过try语句块，执行catch语句的异常处理代码，</p>
-<p>}    之后执行try，catch语句块后代码       </p>
-<p>catch( ){ ③try可以接多个catch，异常由小向大自上而下排列</p>
-<p>……   </p>
-<p>}     </p>
+<h2 id="2、异常的处理方式"><a href="#2、异常的处理方式" class="headerlink" title="2、异常的处理方式"></a>2、异常的处理方式</h2><ul>
+<li><p>抛出</p>
+<ul>
+<li><p>throws  用来声明一个方法可能产生的所有异常，不做任何处理而是将异常往上传，谁调用就抛给谁。向调用者抛出异常，调用者必须要处理；当异常抛向main方法必须处理，否则main抛给JVM，程序不能执行。</p>
+</li>
+<li><p>throw  用来抛出一个具体的异常类型。用在方法体内，跟一个异常对象名， 表示抛出异常 ，由方法体内的语句处理，执行throw则一定抛出了某种异常  </p>
+</li>
+<li><p>throws 和 thow 的区别</p>
+<p>throws出现在方法函数头；而throw出现在函数体。throws表示出现异常的一种可能性，并不一定会发生这些异常；throw则是抛出了异常，执行throw则一定抛出了某种异常。</p>
+</li>
+</ul>
+</li>
+<li><p> 捕获</p>
+</li>
+</ul>
+  <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">try</span><span class="token punctuation">&#123;</span>   
+	<span class="token comment">//将要执行的语句放在try中，catch( )中填要捕获的异常引用，&#123; &#125;中写捕获异常之后的操作</span>
+	<span class="token comment">//当try语句块中任何代码抛出了异常，则程序将跳过try语句块，执行catch语句的异常处理代码，</span>
+	<span class="token comment">//之后执行try，catch语句块后代码</span>
+    <span class="token comment">//try可以接多个catch，异常由小向大自上而下排列</span>
+<span class="token punctuation">&#125;</span><span class="token keyword">catch</span><span class="token punctuation">(</span> <span class="token punctuation">)</span><span class="token punctuation">&#123;</span> 
+<span class="token punctuation">&#125;</span>     <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
 <h2 id="3、创建一个异常类"><a href="#3、创建一个异常类" class="headerlink" title="3、创建一个异常类"></a>3、创建一个异常类</h2><p>①创建一个类继承Exception ②写出无参和有参构造</p>
 <h2 id="4、异常类的常用方法"><a href="#4、异常类的常用方法" class="headerlink" title="4、异常类的常用方法"></a>4、异常类的常用方法</h2><p>①getMessage() 获得异常类对象的详细描述信息</p>
 <p>②getMessage() 获得堆栈轨迹</p>
 <h2 id="5、finally语句块"><a href="#5、finally语句块" class="headerlink" title="5、finally语句块"></a>5、finally语句块</h2><p>①finally语句块 ：放在finally语句块中的语句是必须执行的，即使有异常也会执行</p>
 <p>②finally语句块必须跟try，可以不跟catch</p>
 <p>③return问题，当try中有return语句，finally在return前执行，如果try和catch中都有return，那么finally中的return结 果将覆盖try中return结果</p>
-<p>public static int getInt() {</p>
-<p> int a = 10; try { a = 20;} catch (ArithmeticException e) {a = 30;return a;} finally { a = 40; return a;}</p>
-<p>执行结果 ： 30</p>
-<p>public static int getInt() {</p>
-<p> int a = 10;try {a = 20; } catch (ArithmeticException e) { a = 30; return a; } finally { a = 40; return a;}</p>
-<p>执行结果：40</p>
-<p>带资源的try语句（主要用于资源的关闭，可以简化在关闭资源时，代码的冗余）</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">getInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+ 	<span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span> 
+    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+        a <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ArithmeticException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        a <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span><span class="token keyword">return</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
+        a <span class="token operator">=</span> <span class="token number">40</span><span class="token punctuation">;</span> 
+        <span class="token keyword">return</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+执行结果 ： <span class="token number">30</span>
+
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">int</span> <span class="token function">getInt</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">int</span> a <span class="token operator">=</span> <span class="token number">10</span><span class="token punctuation">;</span>
+    <span class="token keyword">try</span> <span class="token punctuation">&#123;</span>
+        a <span class="token operator">=</span> <span class="token number">20</span><span class="token punctuation">;</span> 
+    <span class="token punctuation">&#125;</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">ArithmeticException</span> e<span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+        a <span class="token operator">=</span> <span class="token number">30</span><span class="token punctuation">;</span> 
+        <span class="token keyword">return</span> a<span class="token punctuation">;</span> 
+    <span class="token punctuation">&#125;</span> <span class="token keyword">finally</span> <span class="token punctuation">&#123;</span>
+        a <span class="token operator">=</span> <span class="token number">40</span><span class="token punctuation">;</span>
+        <span class="token keyword">return</span> a<span class="token punctuation">;</span>
+    <span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+执行结果：<span class="token number">40</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>④带资源的try语句（主要用于资源的关闭，可以简化在关闭资源时，代码的冗余）</p>
 <p>问题：当在finally语句块中关闭多个资源时，都要捕获异常，造成代码的冗余</p>
-<p>try(资源){ } 执行此代码块后，资源将自动关闭；其中资源可以填多个，用封号隔开，结束之后都会自动关闭</p>
+<p>try(资源){ } </p>
+<p>执行此代码块后，资源将自动关闭；其中资源可以填多个，用封号隔开，结束之后都会自动关闭</p>
+<h2 id="6、断言"><a href="#6、断言" class="headerlink" title="6、断言"></a>6、断言</h2><p>断言机制允许在测试期间向代码中插入一些检查语句。当代码发布时，这些语句将会自动移走。</p>
+<pre class="line-numbers language-none"><code class="language-none">格式一：assert 条件；
+格式二：assert 条件：表达式；
+当条件结果为false时，则抛出AssertionError异常。<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
 
                 
             </div>
@@ -756,13 +790,13 @@
             <div class="article-badge left-badge text-color">
                 <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2021/06/23/java3/">
+                <a href="/2021/06/26/collection/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="java-线程">
+                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="java-collection">
                         
-                        <span class="card-title">java-线程</span>
+                        <span class="card-title">java-collection</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -773,7 +807,7 @@
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2021-06-23
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-06-26
                         </span>
                         <span class="publish-author">
                             
@@ -972,7 +1006,7 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2021</span>
+                <span id="year">2021-2022</span>
             
             <span id="year">2021</span>
             <a href="/about" target="_blank">John Doe</a>
@@ -981,7 +1015,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">38.7k</span>&nbsp;字
+                class="white-color">70.3k</span>&nbsp;字
             
             
             

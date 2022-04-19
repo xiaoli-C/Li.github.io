@@ -452,7 +452,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    1.2k
+                    3.1k
                 </div>
                 
 
@@ -472,7 +472,23 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、Servlet"><a href="#一、Servlet" class="headerlink" title="一、Servlet"></a>一、Servlet</h2><h3 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1.概述"></a>1.1.概述</h3><h3 id="1-2-Servlet接口实现类开发步骤"><a href="#1-2-Servlet接口实现类开发步骤" class="headerlink" title="1.2.Servlet接口实现类开发步骤"></a>1.2.Servlet接口实现类开发步骤</h3><ul>
+                <h2 id="一、Servlet"><a href="#一、Servlet" class="headerlink" title="一、Servlet"></a>一、Servlet</h2><h3 id="1-1-概述"><a href="#1-1-概述" class="headerlink" title="1.1.概述"></a>1.1.概述</h3><ul>
+<li><p>Servlet中有5个方法</p>
+<p>public void init(ServletConfig config)  初始化时执行 </p>
+<p>public ServletConfig getServletConfig();  获取Servlet的配置类</p>
+<p>public void service(ServletRequest req, ServletResponse res)；访问Servlet时执行</p>
+<p>public String getServletInfo();  获取Servlet的相关信息</p>
+<p>public void destroy(); 在servlet销毁时执行</p>
+</li>
+<li><p>servlet的生命周期(三个阶段)</p>
+<p>初始化阶段、响应阶段、终止阶段</p>
+<img src="/2021/11/10/javaweb/servlet%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F.png" class=""></li>
+<li><p>HttpServlet </p>
+<p>HttpServlet继承GenericServlet实现 Servlet</p>
+<p>GenericServlet类重写了Servlet接口中无用的方法，HttpServlet重写了service方法</p>
+</li>
+</ul>
+<h3 id="1-2-Servlet接口实现类开发步骤"><a href="#1-2-Servlet接口实现类开发步骤" class="headerlink" title="1.2.Servlet接口实现类开发步骤"></a>1.2.Servlet接口实现类开发步骤</h3><ul>
 <li>第一步：创建一个Java类继承与HttpServlet</li>
 <li>第二步：重写HttpServlet父类两个方法。doGet或则doPost</li>
 <li>第三步：将Servlet接口实现类注册到web.xml中        </li>
@@ -534,6 +550,114 @@
 </ul>
 </li>
 </ul>
+<h3 id="1-6-Servlet之间调用规则"><a href="#1-6-Servlet之间调用规则" class="headerlink" title="1.6.Servlet之间调用规则"></a>1.6.Servlet之间调用规则</h3><h4 id="1-6-1-重定向解决方案"><a href="#1-6-1-重定向解决方案" class="headerlink" title="1.6.1.重定向解决方案"></a>1.6.1.重定向解决方案</h4><img src="/2021/11/10/javaweb/%E9%87%8D%E5%AE%9A%E5%90%91.png" class="">
+
+<p> 实现:<em><strong>*response.sendRedirect(“请求地址”)将地址写入到响应包中响应头中location属性*</strong></em></p>
+<p>  特征:   </p>
+<p><em><strong>*&lt;1*</strong></em>****请求地址****：</p>
+<p>既可以把当前网站内部的资源文件地址发送给浏览器 （****/网站名/资源文件名****）</p>
+<p>也可把其他网站资源地址发送给浏览器(<em><strong>*<a href="http://ip地址:端口号/网站名/资源文件名\">http://ip地址:端口号/网站名/资源文件名\</a>*</strong></em>)</p>
+<p>&lt;2请求次数: 浏览器至少发送两次请求</p>
+<p>  &lt;3)请求方式：</p>
+<p>重定向中，通过地址栏通知浏览器发起下一次请求，因此通过重定向解决方案调用的资源文件接收的请求方式一定是GET</p>
+<h4 id="1-6-2-请求转发解决方案"><a href="#1-6-2-请求转发解决方案" class="headerlink" title="1.6.2.请求转发解决方案"></a>1.6.2.请求转发解决方案</h4><img src="/2021/11/10/javaweb/%E8%AF%B7%E6%B1%82%E8%BD%AC%E5%8F%91.png" class="">
+
+<p>实现命令： 请求对象代替浏览器向Tomcat发送请求</p>
+<p>1.通过当前请求对象生成资源文件申请报告对象</p>
+<p><em><strong>*RequestDispatcher  report = request.getRequestDispatcher(“/资源文件名”);以”/“为开头*</strong></em></p>
+<p>2.将报告对象发送给Tomcat</p>
+<p><em><strong>*report.forward(当前请求对象，当前响应对象)*</strong></em></p>
+<p>特征:</p>
+<p>1)请求次数:在请求转发过程中，浏览器只发送一次请求</p>
+<p> 2）请求地址</p>
+<p>只能向Tomcat服务器申请调用当前网站下资源文件地址</p>
+<p>3）请求方式</p>
+<p><em><strong>*浏览器只发送一个了个Http请求协议包*<em><strong>。参与本次请求的</strong></em>*所有Servlet共享同一个请求*</strong></em></p>
+<p>****协议包****，因此请求方式与浏览器发送的请求方式保持一致</p>
+<h3 id="1-7-多个Servlet之间数据共享实现方案"><a href="#1-7-多个Servlet之间数据共享实现方案" class="headerlink" title="1.7.多个Servlet之间数据共享实现方案"></a>1.7.多个Servlet之间数据共享实现方案</h3><h4 id="1-7-1-ServletContext接口-全局作用域对象"><a href="#1-7-1-ServletContext接口-全局作用域对象" class="headerlink" title="1.7.1.ServletContext接口 全局作用域对象"></a>1.7.1.ServletContext接口 全局作用域对象</h4><p>工作原理：</p>
+<p>当前网站中的所有Servlet都可以将数据放到作用域中，<em><strong>*也*</strong></em><em><strong>*都可以从全局作用域对象得到这个数据进行使用*</strong></em></p>
+<p>  全局作用域对象生命周期：</p>
+<p>&lt;1&gt;在Http服务器启动过程中，自动为当前网站在内存中创建一个全局作用域对象</p>
+<p>  &lt;2&gt;在Http服务器运行期间时，<em><strong>*一个网站只有一个全局作用域对象*</strong></em></p>
+<p>&lt;3&gt;在Http服务器运行期间，全局作用域对象一直处于存活状态</p>
+<p>&lt;4&gt;在Http服务器准备关闭时，负责将当前网站中全局作用域对象销毁处理</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//1.获得作用域</span>
+<span class="token class-name">ServletContext</span> application  <span class="token operator">=</span>  request<span class="token punctuation">.</span><span class="token function">getServletContext</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment">//2.添加数据					  </span>
+application<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"key1"</span><span class="token punctuation">,</span>数据<span class="token punctuation">)</span> 				
+<span class="token comment">//3.从全局作用域对象得到指定关键字对应数据</span>
+<span class="token class-name">Object</span> 数据 <span class="token operator">=</span>  application<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">"key1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 	<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="1-7-2-Cookie类"><a href="#1-7-2-Cookie类" class="headerlink" title="1.7.2.Cookie类"></a>1.7.2.Cookie类</h4><img src="/2021/11/10/javaweb/cookie.png" class="">
+
+<p>使用范围 :如果两个<em><strong>*Servlet来自于同一个网站，并且为同一个浏览器/用户提供服务*</strong></em></p>
+<p>用户通过浏览器向网站发送请求申请期间创建一个Cookie存储与当前用户相关数据，工作完毕后，****将Cookie写入到响应头*<em><strong>交还给当前浏览器。浏览器收到响应响应包之后，将</strong></em>*cookie存储在浏览器的缓存*<em><strong>一段时间之后，用户通过</strong></em>*同一个浏览器*<em><strong>再次发送请求时。</strong></em>*浏览器需要无条件的将之前推送过来的Cookie，写入到请求头****发送过去</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//1.创建一个cookie对象，保存共享数据（当前用户数据）</span>
+<span class="token class-name">Cookie</span> card <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Cookie</span><span class="token punctuation">(</span><span class="token string">"key1"</span><span class="token punctuation">,</span><span class="token string">"abc"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">Cookie</span> card1<span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Cookie</span><span class="token punctuation">(</span><span class="token string">"key2"</span><span class="token punctuation">,</span><span class="token string">"efg"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//2.cookie写入到响应头，交给浏览器</span>
+resp<span class="token punctuation">.</span><span class="token function">addCookie</span><span class="token punctuation">(</span>card<span class="token punctuation">)</span><span class="token punctuation">;</span>
+resp<span class="token punctuation">.</span><span class="token function">addCookie</span><span class="token punctuation">(</span>card1<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//3.调用请求对象从请求头得到浏览器返回的Cookie</span>
+<span class="token class-name">Cookie</span>  cookieArray<span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">getCookies</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">//4.循环遍历数据得到每一个cookie的key 与 value</span>
+<span class="token class-name">String</span> key <span class="token operator">=</span>   card<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 读取key <span class="token string">"key1"</span>
+<span class="token class-name">String</span> value <span class="token operator">=</span> card<span class="token punctuation">.</span><span class="token function">getValue</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>读取value <span class="token string">"abc"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Cookie销毁时机</p>
+<p>1.默认，Cookie对象存放在浏览器的缓存中。只要浏览器关闭，Cookie对象就被销毁掉</p>
+<p>2.在手动设置情况下，可以要求浏览器将接收的Cookie存放在客户端计算机上硬盘上，同时需要指定Cookie在硬盘上存活时间。在存活时间范围内，关闭浏览器 关闭客户端计算机，关闭服务器，都不会导致Cookie被销毁。在存活时间到达时，Cookie自动从硬盘上被删除</p>
+<p> cookie.setMaxAge(60); //cookie在硬盘上存活1分钟</p>
+<h4 id="1-7-3-HttpSession接口-会话作用域对象"><a href="#1-7-3-HttpSession接口-会话作用域对象" class="headerlink" title="1.7.3.HttpSession接口 会话作用域对象"></a>1.7.3.HttpSession接口 会话作用域对象</h4><p>使用范围：两个Servlet来自于同一个网站，并且为同一个浏览器/用户提供服务</p>
+<ul>
+<li><p>HttpSession 与 Cookie 区别：</p>
+<p>1）存储位置: </p>
+<p>Cookie：存放在客户端计算机（浏览器内存/硬盘）HttpSession：存放在服务端计算机内存</p>
+<p>2）数据类型：</p>
+<p>Cookie对象存储共享数据类型只能是String；HttpSession对象可以存储任意类型的Object</p>
+<p>\3) 数据数量:</p>
+<p>一个Cookie对象只能存储一个共享数据</p>
+<p>HttpSession使用map集合存储共享数据，所以可以存储任意数量共享数据</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//1.调用请求对象向Tomcat索要当前用户在服务端的HttpSession</span>
+<span class="token class-name">HttpSession</span>  session <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">getSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//2.将数据添加</span>
+session<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"key1"</span><span class="token punctuation">,</span>共享数据<span class="token punctuation">)</span>
+<span class="token comment">//3.调用请求对象向Tomcat索要当前用户在服务端的HttpSession</span>
+<span class="token class-name">HttpSession</span>  session <span class="token operator">=</span> request<span class="token punctuation">.</span><span class="token function">getSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">//4.从会话作用域对象得到OneServlet提供的共享数据</span>
+<span class="token class-name">Object</span> 共享数据 <span class="token operator">=</span> session<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">"key1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+<li><p>原理：</p>
+<p>Tomcat在创建一个HttpSession对象时自动为这个HttpSession对象生成一个编号（箱号）。Tomcat将箱号保存到cookie对象中，    推送到当前浏览器缓存。格式为cookie：JSESSIONID=箱号。等到用户第二次访问，Tomcat根据请求头JSESSIONID确认用户是否有HttpSession以及哪一个HttpSession是当前用户。两个Servlet来自于同一个网站并且为同一个浏览器/用户提供服务。且不能禁用cookie，因为session是借助于cookie实现数据共享的。</p>
+</li>
+<li><p>getSession() 与 getSession(false)</p>
+<p>1）getSession():如果当前用户在服务端尚未拥有HttpSession则创建一个HttpSession</p>
+<p> 2)getSession(false):如果当前用    户在服务端尚未拥有HttpSession此时Tomcat将返回null</p>
+</li>
+<li><p>HttpSession销毁时机:</p>
+<p>&lt;1用户与HttpSession关联时使用的Cookie只能存放在浏览器缓存中.在浏览器关闭时，意味着用户与他的HttpSession关系被切断由</p>
+<p>&lt;2Tomcat为每一个HttpSession对象设置空闲时间这个空闲时间默认30分钟，如果当前HttpSession对象空闲时间达到30分钟,此时Tomcat就会销毁掉这个HttpSession</p>
+<p>&lt;3.HttpSession空闲时间手动设置</p>
+<p>Web.xml              </p>
+<session-config>
+
+<p><session-timeout>5</session-timeout> </p>
+</session-config></li>
+</ul>
+<h4 id="1-7-4-HttpServletRequest接口-请求作用域对象"><a href="#1-7-4-HttpServletRequest接口-请求作用域对象" class="headerlink" title="1.7.4.HttpServletRequest接口 请求作用域对象"></a>1.7.4.HttpServletRequest接口 请求作用域对象</h4><p> &lt;1.介绍：</p>
+<p> 使用范围：在同一个网站中，如果两个Servlet之间通过请求转发方式进行调用，彼此         </p>
+<p>之间共享同一个请求协议包。而一个请求协议包只对应一个请求对象因此servlet之间</p>
+<p>共享同一个请求对象</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token number">1.</span>将数据添加到请求作用域对象中attribute属性
+req<span class="token punctuation">.</span><span class="token function">setAttribute</span><span class="token punctuation">(</span><span class="token string">"key1"</span><span class="token punctuation">,</span>数据<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//数据类型可以任意类型Object</span>
+      <span class="token number">2.</span>请求转发			             req<span class="token punctuation">.</span><span class="token function">getRequestDispatcher</span><span class="token punctuation">(</span><span class="token string">"/two"</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">forward</span><span class="token punctuation">(</span>req<span class="token punctuation">,</span>response<span class="token punctuation">)</span>
+<span class="token number">3.</span>从当前请求对象得到<span class="token class-name">OneServlet</span>写入到共享数据
+<span class="token class-name">Object</span> 数据 <span class="token operator">=</span> req<span class="token punctuation">.</span><span class="token function">getAttribute</span><span class="token punctuation">(</span><span class="token string">"key1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+
+
+
+
+<p>​                             </p>
 <h2 id="二、Filter"><a href="#二、Filter" class="headerlink" title="二、Filter"></a>二、Filter</h2><h3 id="2-1-介绍"><a href="#2-1-介绍" class="headerlink" title="2.1.介绍"></a>2.1.介绍</h3><p>Filter接口在Http服务器调用资源文件前，对Http服务器进行拦截</p>
 <h3 id="2-2-Filter接口实现类开发步骤："><a href="#2-2-Filter接口实现类开发步骤：" class="headerlink" title="2.2.Filter接口实现类开发步骤："></a>2.2.Filter接口实现类开发步骤：</h3><ol>
 <li><p>创建一个Java类实现Filter接口</p>
@@ -846,18 +970,17 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="far fa-dot-circle"></i>&nbsp;Current
-            </div>
+                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
             <div class="card">
-                <a href="/2021/11/10/javaweb/">
+                <a href="/2021/11/16/spring/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="javaweb">
+                        <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="spring-IOC">
                         
-                        <span class="card-title">javaweb</span>
+                        <span class="card-title">spring-IOC</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -867,9 +990,9 @@
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-10
-                            </span>
+                        <span class="publish-date">
+                            <i class="far fa-clock fa-fw icon-date"></i>2021-11-16
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fas fa-user fa-fw"></i>
@@ -878,7 +1001,14 @@
                         </span>
                     </div>
                 </div>
-
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/java-spring/">
+                        <span class="chip bg-color">java,spring</span>
+                    </a>
+                    
+                </div>
                 
             </div>
         </div>
@@ -889,13 +1019,13 @@
                 Next&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2021/10/23/java5/">
+                <a href="/2021/10/23/java4/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="java-数据库编程">
+                        <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="java-IO">
                         
-                        <span class="card-title">java-数据库编程</span>
+                        <span class="card-title">java-IO</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -1052,7 +1182,7 @@
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2021</span>
+                <span id="year">2021-2022</span>
             
             <span id="year">2021</span>
             <a href="/about" target="_blank">John Doe</a>
@@ -1061,7 +1191,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">38.7k</span>&nbsp;字
+                class="white-color">70.3k</span>&nbsp;字
             
             
             

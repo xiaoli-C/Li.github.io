@@ -755,7 +755,7 @@ set和get方法写的时候有严格的规范要求：
 </ul>
 </li>
 </ul>
-<h4 id="4-2-接口"><a href="#4-2-接口" class="headerlink" title="4.2.接口"></a>4.2.接口</h4><ol>
+<h4 id="4-2-接口"><a href="#4-2-接口" class="headerlink" title="4.2.接口"></a>4.2.接口</h4><ul>
 <li><p>接口也是一种“引用数据类型”。接口是完全抽象的。（抽象类是半抽象。）或者也可以说接口是特殊的抽象类。</p>
 </li>
 <li><p>接口语法：接口中只包含两部分内容，一部分是：常量，一部分是：抽象方法；（接口中的方法不能有方法体）</p>
@@ -765,9 +765,9 @@ set和get方法写的时候有严格的规范要求：
 <li><p>接口支持多继承，一个接口可以继承多个接口。</p>
 </li>
 <li><p>接口中的方法也可以有方法体</p>
-<p>一种是静态方法，意义不大；</p>
-<p>一种是方法的默认实现，可不再必须覆盖；也可覆盖，不覆盖即按照默认实现。default关键字</p>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">A</span><span class="token punctuation">&#123;</span>
+<p> 一种是静态方法，意义不大；通常的做法是将静态方法放在伴随类中，如Collection/Collections</p>
+<p> 一种是方法的默认实现，可不再必须覆盖；也可覆盖，不覆盖即按照默认实现。default关键字</p>
+ <pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">A</span><span class="token punctuation">&#123;</span>
 	<span class="token keyword">default</span> <span class="token keyword">int</span> <span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
 		<span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 	<span class="token punctuation">&#125;</span>
@@ -780,31 +780,36 @@ set和get方法写的时候有严格的规范要求：
 		两个均为默认方法，报错，需选择实现
 		一个为抽象方法一个为默认方法，报错
 		两个均为抽象方法，不报错，选择实现或不实现均可
-*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+*/</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+</li>
 <li><p>接口的实例化</p>
-<p>接口变量必须引用实现了接口的类对象。</p>
-<p>接口可以用匿名内部类的方式实现（抽象类也可以）;</p>
+<p> 接口变量必须引用实现了接口的类对象。</p>
+<p> 接口可以用匿名内部类的方式实现（抽象类也可以）;</p>
 </li>
 <li><p>当一个非抽象的类实现接口的话，必须将接口中所有的抽象方法全部实现（覆盖、重写）。    </p>
 </li>
 <li><p>接口A和接口B没有继承关系，互转时编译器通过。但是运行时可能出现：ClassCastException；</p>
 </li>
 <li><p>接口与静态方法</p>
-<p>在标准库中，有很多成对的接口和工具类，通常将静态方法放在工具类中，如 Collection和Collections</p>
+<p> 在标准库中，有很多成对的接口和工具类，通常将静态方法放在工具类中，如 Collection和Collections</p>
 </li>
 <li><p>常见的接口</p>
+<ul>
+<li>Comparator<T>{}       专门写一个类加比较器接口，在此类中书写规则，具体比较时，实例化一个比较器调用compare()方法</li>
+</ul>
 <pre class="line-numbers language-none"><code class="language-none">Comparable&lt;T&gt;&#123;      
 	int compareTo(T o)
 &#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
 
-
-
-<p>​         Comparator<T>{}       专门写一个类加比较器接口，在此类中书写规则，具体比较时，实例化一个比较器</p>
-<p>​                       调用compare()方法</p>
-<p>此接口强行对实现它的每个类的对象进行整体排序。这种排序被称为类的自然排序，类的 compareTo 方法被称为它的自然比较方法。</p>
-<p>Cloneble</p>
+<ul>
+<li><p>Cloneable</p>
+<p>Cloneable接口是一个标记接口，要实现clone方法，必须实现cloneable接口，否则在调用的时候抛出一个CloneNotSupported-Exception.</p>
+<p>clone是Object的一个protected的方法。所有数组类型都有一个public的clone方法，不是protected.</p>
 </li>
-</ol>
+</ul>
+</li>
+</ul>
 <h4 id="4-3-抽象类和接口有什么区别"><a href="#4-3-抽象类和接口有什么区别" class="headerlink" title="4.3.抽象类和接口有什么区别"></a>4.3.抽象类和接口有什么区别</h4><ul>
 <li>抽象类是半抽象的。接口是完全抽象的。</li>
 <li>抽象类中有构造方法。接口中没有构造方法。</li>
@@ -1056,14 +1061,62 @@ t<span class="token punctuation">.</span><span class="token function">start</spa
 <li><p>提出问题：a.equals(b),如果a和b不是同一个类，那么用什么条件判断？</p>
 <p>java重写的equals方法中采用instanceof检测，getClass检测，捕获ClassCastException异常。</p>
 </li>
-<li><p>equals方法实现建议：</p>
-<p>1)显式参数命名为otherObject,稍后需要将它转换成另一个叫做other的变量。<br>2)检测this与otherObject是否引用同-一个对象:<br>if (this == other0bject) return true;<br>这条语句只是-一个优化。 实际上，这是-一种经常采用的形式。因为计算这个等式要比一-<br>个一个地比较类中的域所付出的代价小得多。<br>3)检测otherObject是否为null,如果为null,返回false。这项检测是很必要的。<br>if (other0bject == nu11) return false;<br>4)比较this与otherObject是否属于同一个类。如果equals的语义在每个子类中有所改<br>变，就使用getClass检测:<br>if (getC1ass( != other0bject.getClass() return false;<br>如果所有的子类都拥有统一的语 义，就使用instanceof检测:<br>if (! (other0bject instanceof ClassName)) return false;<br>5)将otherObject转换为相应的类类型变量:<br>ClassName other = (ClassName) other0bject<br>6)现在开始对所有需要比较的域进行比较了。使用==比较基本类型域，使用equals 比<br>较对象域。如果所有的域都匹配，就返回true;否则返回false。</p>
-</li>
 </ul>
 <h3 id="2-hashCode方法"><a href="#2-hashCode方法" class="headerlink" title="2.hashCode方法"></a>2.hashCode方法</h3><ul>
 <li>Object类中hashCode的默认实现为对象的储存地址；</li>
-<li></li>
+<li>重写equals()方法，就必须重写hashCode()的方法</li>
+<li>hashCode()由native方法底层实现</li>
+<li>String类的equals( )和hashcode( )方法重写</li>
 </ul>
+<h3 id="3-clone方法"><a href="#3-clone方法" class="headerlink" title="3.clone方法"></a>3.clone方法</h3><p>clone()：克隆会在内存上分配一个与源对象大小相同的内存，然后以源对象的字段填充，返回源对象的克隆体</p>
+<ul>
+<li>深拷贝和浅拷贝,在于对引用类型字段的复制 </li>
+</ul>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">A</span> <span class="token keyword">implements</span> <span class="token class-name">Cloneable</span><span class="token punctuation">&#123;</span>
+	<span class="token class-name">String</span> s<span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//浅拷贝</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">B</span> <span class="token keyword">implements</span> <span class="token class-name">Cloneable</span><span class="token punctuation">&#123;</span>
+	<span class="token class-name">String</span> s<span class="token punctuation">;</span>
+	<span class="token class-name">A</span> a<span class="token punctuation">;</span>
+	<span class="token keyword">protected</span> <span class="token class-name">Object</span> <span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+		<span class="token keyword">return</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token comment">//深拷贝</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">C</span> <span class="token keyword">implements</span> <span class="token class-name">Cloneable</span><span class="token punctuation">&#123;</span>
+	<span class="token class-name">String</span> s<span class="token punctuation">;</span>
+	<span class="token class-name">A</span> a<span class="token punctuation">;</span>
+	<span class="token keyword">protected</span> <span class="token class-name">Object</span> <span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+		<span class="token class-name">C</span> c <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token class-name">C</span><span class="token punctuation">)</span> <span class="token keyword">super</span><span class="token punctuation">.</span><span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		c<span class="token punctuation">.</span>a <span class="token operator">=</span> c<span class="token punctuation">.</span>a<span class="token punctuation">.</span><span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token keyword">return</span> c<span class="token punctuation">;</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span>
+<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">Test</span><span class="token punctuation">&#123;</span>
+	<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+		<span class="token class-name">A</span> a <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">A</span><span class="token punctuation">(</span><span class="token string">"s"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+		<span class="token class-name">B</span> b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">B</span><span class="token punctuation">(</span><span class="token string">"s"</span><span class="token punctuation">,</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		b<span class="token operator">==</span>b<span class="token punctuation">.</span><span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">//false //对象和克隆体地址不同</span>
+		b<span class="token punctuation">.</span>a <span class="token operator">==</span> b<span class="token punctuation">.</span><span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>a<span class="token punctuation">;</span> <span class="token comment">//true //浅拷贝所有字段和源对象相同，只进行单纯复制</span>
+		<span class="token class-name">C</span> c <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">C</span> <span class="token punctuation">(</span><span class="token string">"s"</span><span class="token punctuation">,</span>a<span class="token punctuation">)</span><span class="token punctuation">;</span>
+		c<span class="token punctuation">.</span>a <span class="token operator">==</span> c<span class="token punctuation">.</span><span class="token function">clone</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>a<span class="token punctuation">;</span> <span class="token comment">//false 深拷贝</span>
+	<span class="token punctuation">&#125;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="4-toString方法"><a href="#4-toString方法" class="headerlink" title="4.toString方法"></a>4.toString方法</h3><p>toString方法主要是用来<strong>标识</strong>该对象的</p>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token annotation punctuation">@Override</span>
+<span class="token keyword">public</span> <span class="token class-name">String</span> <span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">&#123;</span>
+    <span class="token keyword">return</span> <span class="token string">"Address&#123;"</span> <span class="token operator">+</span>
+            <span class="token string">"provinceNo="</span> <span class="token operator">+</span> provinceNo <span class="token operator">+</span>
+            <span class="token string">", cityNo="</span> <span class="token operator">+</span> cityNo <span class="token operator">+</span>
+            <span class="token string">", streetNo="</span> <span class="token operator">+</span> streetNo <span class="token operator">+</span>
+            <span class="token string">'&#125;'</span><span class="token punctuation">;</span>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="5-notify-和wait"><a href="#5-notify-和wait" class="headerlink" title="5.notify()和wait()"></a>5.notify()和wait()</h3><p>线程相关</p>
+<h3 id="6-finalize"><a href="#6-finalize" class="headerlink" title="6.finalize()"></a>6.finalize()</h3><p>GC，垃圾处理器相关</p>
+<h3 id="7-getClass"><a href="#7-getClass" class="headerlink" title="7.getClass()"></a>7.getClass()</h3><p>获取调用该方法的对象的类</p>
 <h2 id="三、包装类和自动装箱"><a href="#三、包装类和自动装箱" class="headerlink" title="三、包装类和自动装箱"></a>三、包装类和自动装箱</h2><h3 id="1-八大包装类"><a href="#1-八大包装类" class="headerlink" title="1.八大包装类"></a>1.八大包装类</h3><p>八种基本类型都有对应的包装类</p>
 <p>byte-Byte    short-Short    int-Integer    long-Long     Float-Float    double-Double    boolean-Boolean    char-Character</p>
 <img src="/2021/06/20/java1/%E5%8C%85%E8%A3%85%E7%B1%BB.png" class="">
@@ -1074,7 +1127,8 @@ t<span class="token punctuation">.</span><span class="token function">start</spa
 <p>Integer  a = 128, b = 128, c = 127, d = 127;</p>
 <p>a==b false 不在缓存范围内，所以会创建两个新的对象</p>
 <p>c==d true  在缓存范围内，直接从缓存中取相同的对象</p>
-<h2 id="四、常用类和接口"><a href="#四、常用类和接口" class="headerlink" title="四、常用类和接口"></a>四、常用类和接口</h2>
+<h2 id="四、常用类和接口"><a href="#四、常用类和接口" class="headerlink" title="四、常用类和接口"></a>四、常用类和接口</h2><h3 id="4-1-String"><a href="#4-1-String" class="headerlink" title="4.1.String"></a>4.1.String</h3><p>String、StringBuilder、StringBuffer</p>
+<h3 id="4-2-枚举"><a href="#4-2-枚举" class="headerlink" title="4.2.枚举"></a>4.2.枚举</h3>
                 
             </div>
             <hr/>
@@ -1529,7 +1583,7 @@ t<span class="token punctuation">.</span><span class="token function">start</spa
         <div class="col s12 m8 l8 copy-right">
             Copyright&nbsp;&copy;
             
-                <span id="year">2021</span>
+                <span id="year">2021-2022</span>
             
             <span id="year">2021</span>
             <a href="/about" target="_blank">John Doe</a>
@@ -1538,7 +1592,7 @@ t<span class="token punctuation">.</span><span class="token function">start</spa
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">38.7k</span>&nbsp;字
+                class="white-color">70.3k</span>&nbsp;字
             
             
             
