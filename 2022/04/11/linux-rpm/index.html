@@ -456,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    399
+                    1.1k
                 </div>
                 
 
@@ -496,13 +496,13 @@
 <li>包名 ：httpd ；用于对已安装包的命令</li>
 </ul>
 <h4 id="1-4-命令"><a href="#1-4-命令" class="headerlink" title="1.4.命令"></a>1.4.命令</h4><ul>
-<li>安装 <ul>
+<li>安装 安装时需要的rpm包，可用linux光盘镜像iso文件使用(cd源)；读取光盘文件要将光盘挂载mount /dev/sr0 /mnt/cdrom;将光盘设备/dev/sr0挂载到/mnt/cdrom下<ul>
 <li>rpm  -ivh 包全名</li>
 <li>-i : 安装</li>
 <li>-v : 显示详细信息</li>
 <li>-h : 显示进度 </li>
 </ul>
-</li>
+rpm安装包之间的依赖需要手动安装解决，所以不建议以此法安装。</li>
 <li>更新<ul>
 <li>rpm -Uvh 包全名</li>
 <li>-U：update</li>
@@ -525,7 +525,90 @@
 </ul>
 </li>
 </ul>
-<h3 id="yum网络源和cd源"><a href="#yum网络源和cd源" class="headerlink" title="yum网络源和cd源"></a>yum网络源和cd源</h3><h3 id="yum命令"><a href="#yum命令" class="headerlink" title="yum命令"></a>yum命令</h3><ul>
+<h3 id="yum网络源和cd源"><a href="#yum网络源和cd源" class="headerlink" title="yum网络源和cd源"></a>yum网络源和cd源</h3><ul>
+<li><p>yum网络源</p>
+<ul>
+<li><p>只要可以连接公网，即默认连接官网yum网络源</p>
+</li>
+<li><p>所有的网络源</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@localhost yum.repos.d]# ls &#x2F;etc&#x2F;yum.repos.d
+CentOS-Base.repo  CentOS-Debuginfo.repo  CentOS-Media.repo    CentOS-Vault.repo
+CentOS-CR.repo    CentOS-fasttrack.repo  CentOS-Sources.repo
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
+<li><p>网络源文件</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@localhost yum.repos.d]# vim CentOS-Base.repo 
+
+# CentOS-Base.repo
+#
+# The mirror system uses the connecting IP address of the client and the
+# update status of each mirror to pick mirrors that are updated to and
+# geographically close to the client.  You should use this for CentOS updates
+# unless you are manually picking other mirrors.
+#
+# If the mirrorlist&#x3D; does not work for you, as a fall back you can try the 
+# remarked out baseurl&#x3D; line instead.
+#
+#
+
+[base]
+name&#x3D;CentOS-$releasever - Base
+mirrorlist&#x3D;http:&#x2F;&#x2F;mirrorlist.centos.org&#x2F;?release&#x3D;$releasever&amp;arch&#x3D;$basearch&amp;repo&#x3D;os&amp;infra&#x3D;$infra
+#baseurl&#x3D;http:&#x2F;&#x2F;mirror.centos.org&#x2F;centos&#x2F;$releasever&#x2F;os&#x2F;$basearch&#x2F;
+gpgcheck&#x3D;1
+gpgkey&#x3D;file:&#x2F;&#x2F;&#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-CentOS-7
+
+#released updates 
+[updates]
+name&#x3D;CentOS-$releasever - Updates
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<ul>
+<li>[base]：容器名称，放在[]中</li>
+<li>name：容器说明，可更改</li>
+<li>mirrorlist：镜像站点</li>
+<li>baseurl：yum源服务器地址</li>
+<li>enabled：此容器是否生效，不写或enabled=1都是生效，enabled=0就是不生效</li>
+<li>gpgcheck：如果是1指RPM的数字证书生效，如果是0则不生效</li>
+<li>gpgkey：数字证书的公钥文件把偶保存位置。不用修改</li>
+</ul>
+</li>
+<li><p>cd源</p>
+<ul>
+<li><p>使用cdyum源，首先让除了CentOS-Media.repo之外的网络源失效；可以将其他网络yum源的名字更改；</p>
+</li>
+<li><p>使用cd源，如上rpmcd源配置</p>
+</li>
+<li><p>配置CentOS-Media.repo</p>
+<pre class="line-numbers language-none"><code class="language-none">[root@localhost yum.repos.d]# vim CentOS-Media.repo 
+
+# CentOS-Media.repo
+#
+#  This repo can be used with mounted DVD media, verify the mount point for
+#  CentOS-7.  You can use this repo and yum to install items directly off the
+#  DVD ISO that we release.
+#
+# To use this repo, put in your DVD and use it with the other repos too:
+#  yum --enablerepo&#x3D;c7-media [command]
+#  
+# or for ONLY the media repo, do this:
+#
+#  yum --disablerepo&#x3D;\* --enablerepo&#x3D;c7-media [command]
+
+[c7-media]
+name&#x3D;CentOS-$releasever - Media
+baseurl&#x3D;file:&#x2F;&#x2F;&#x2F;mnt&#x2F;cdrom&#x2F;   #地址为你挂载的光盘目录
+       # file:&#x2F;&#x2F;&#x2F;media&#x2F;cdrom&#x2F;
+       # file:&#x2F;&#x2F;&#x2F;media&#x2F;cdrecorder&#x2F;
+gpgcheck&#x3D;1
+enabled&#x3D;0
+gpgkey&#x3D;file:&#x2F;&#x2F;&#x2F;etc&#x2F;pki&#x2F;rpm-gpg&#x2F;RPM-GPG-KEY-CentOS-7
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="yum命令"><a href="#yum命令" class="headerlink" title="yum命令"></a>yum命令</h3><ul>
 <li><p>yum list</p>
 </li>
 <li><p>yum search “关键词”</p>
@@ -545,6 +628,21 @@
 </li>
 <li><p>yum groupremove 软件组名    </p>
 </li>
+</ul>
+<h3 id="源码包"><a href="#源码包" class="headerlink" title="源码包"></a>源码包</h3><ul>
+<li>安装C语言编译器</li>
+<li>下载源码包</li>
+<li>源码保存位置/usr/local/src;软件保存位置/usr/local</li>
+<li>源码包解压缩，进入解压缩目录</li>
+<li>执行./configure命令<ul>
+<li>定义需要的功能选项 如：./configure –prefix=/usr/local/xxx</li>
+<li>检测系统环境是否符合安装要求</li>
+<li>把定义好的功能选型和检测环境信息都写入Makefile文件</li>
+</ul>
+</li>
+<li>执行make</li>
+<li>执行make install</li>
+<li>启动 绝对路径 + start</li>
 </ul>
 
                 
@@ -1002,7 +1100,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">70.3k</span>&nbsp;字
+                class="white-color">75.8k</span>&nbsp;字
             
             
             

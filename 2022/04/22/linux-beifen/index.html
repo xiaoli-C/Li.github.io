@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="keywords" content="linux-bash-bianliang, Zh-Li">
+    <meta name="keywords" content="linux-beifen, Zh-Li">
     <meta name="description" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -16,7 +16,7 @@
     <!-- Global site tag (gtag.js) - Google Analytics -->
 
 
-    <title>linux-bash-bianliang | Zh-Li</title>
+    <title>linux-beifen | Zh-Li</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/all.css">
@@ -310,12 +310,12 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container" style="right: 0px;left: 0px;">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
-                    <h1 class="description center-align post-title">linux-bash-bianliang</h1>
+                    <h1 class="description center-align post-title">linux-beifen</h1>
                 </div>
             </div>
         </div>
@@ -443,7 +443,7 @@
                 
                 <div class="post-date info-break-policy">
                     <i class="far fa-calendar-minus fa-fw"></i>Publish Date:&nbsp;&nbsp;
-                    2022-04-12
+                    2022-04-22
                 </div>
                 
 
@@ -452,7 +452,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    1.1k
+                    625
                 </div>
                 
 
@@ -472,198 +472,62 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h4 id="1-1-bash-变量"><a href="#1-1-bash-变量" class="headerlink" title="1.1.bash 变量"></a>1.1.bash 变量</h4><ul>
-<li><p>什么是变量</p>
-<p>变量是计算内存的单元，其中存放的值可以改变，当Shell脚本需要保存一些信息时，如一个文件名或是一个数字，就把它存放在一个变量中。每个变量有一个名字，所以很容易引用它。使用变量可以保存有用的信息，是系统获知用户相关设置，变量也可以用于保存暂时信息。</p>
-</li>
-<li><p>变量分类</p>
+                <h3 id="备份策略"><a href="#备份策略" class="headerlink" title="备份策略"></a>备份策略</h3><ul>
+<li><p>完全备份</p>
 <ul>
-<li>用户自定义变量</li>
-<li>环境变量</li>
-<li>位置参数变量</li>
-<li>预定义变量</li>
+<li>完全备份就是指把所有需要备份的数据全部备份，当然完全备份可以备份整块硬盘，整个分区或某个具体的目录。</li>
+<li>优点：备份恢复速度快；缺点：备份时所需资源较多</li>
 </ul>
 </li>
-</ul>
-<h4 id="1-2-变量命名规则"><a href="#1-2-变量命名规则" class="headerlink" title="1.2.变量命名规则"></a>1.2.变量命名规则</h4><ul>
-<li>由字母、数字和下划线组成，不能以数字开头</li>
-<li>变量默认是字符串类型，如果要需要其他类型，需要指定</li>
-</ul>
-<h4 id="1-3-设置变量"><a href="#1-3-设置变量" class="headerlink" title="1.3.设置变量"></a>1.3.设置变量</h4><ul>
-<li>变量和值之间由等号连接，等号两侧不能有空格，如果变量的值有空格，需要用双或单引号引住</li>
-<li>变量中的值可以用 \ 转义</li>
-<li>变量叠加<ul>
-<li>对变量值叠加，变量需要 ”$变量名”或${变量名}引用</li>
-<li>name=lz ; 叠加：name=”$name”p</li>
-<li>name=lz ；叠加： name=${name}p</li>
-<li>结果： neme=lzp</li>
-</ul>
-</li>
-<li> 把命令的值作为变量值赋予给变量，则命令需要用反引号或$()包含命令；</li>
-<li>建议将环境变量大写；</li>
-</ul>
-<h3 id="2-用户自定义变量"><a href="#2-用户自定义变量" class="headerlink" title="2.用户自定义变量"></a>2.用户自定义变量</h3><ul>
-<li>变量定义<ul>
-<li>name=lzp</li>
-</ul>
-</li>
-<li>变量引用<ul>
-<li>echo $name</li>
-</ul>
-</li>
-<li>变量查看<ul>
-<li>set</li>
-</ul>
-</li>
-<li>变量删除<ul>
-<li>unset 变量名</li>
-</ul>
-</li>
-</ul>
-<h3 id="3-环境变量"><a href="#3-环境变量" class="headerlink" title="3.环境变量"></a>3.环境变量</h3><p>变量中主要保存的是和系统操作环境相关的数据</p>
-<p>用户变量只在当前shell中执行，环境变量在当前shell及其子shell都可执行，如果将环境变量写入配置文件中，则全部shell均可使用</p>
+<li><p>增量备份</p>
 <ul>
-<li><p>父shell与子shell</p>
-<pre class="line-numbers language-none"><code class="language-none">进入命令界面，即进入标准bash shell 
-[root@~]#bash 输入bash,代表在当前shell中，再进入一个shell
-[root@~]#csh 再次进入
-[root@~]#yum install psmisc; 下载pstree命令包
-[root@~]#pstree 查询
-结果：login-bash-bash-csh-pstree
-则刚进入的界面为父shell,每个接下来的shell,均是传承关系；
-[root@~]:exit ：退出最后一个shell<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre></li>
-<li><p>定义环境变量</p>
+<li>每一次备份都只备份上次备份值本次备份之间发生改变的部分；</li>
+<li>优点：备份迅速，消耗资源少；缺点：恢复时麻烦</li>
+</ul>
+<img src="/2022/04/22/linux-beifen/%E5%A2%9E%E9%87%8F%E5%A4%87%E4%BB%BD.png" class=""></li>
+<li><p>差异备份</p>
 <ul>
-<li>export 变量=变量值</li>
-<li>env ；查询环境变量</li>
-<li>unset 变量名 ；删除变量</li>
+<li>每次备份时备份的是第一次备份至本次备份之间发生改变的部分；</li>
 </ul>
-</li>
-<li><p>系统常见环境变量</p>
+<img src="/2022/04/22/linux-beifen/%E5%B7%AE%E5%BC%82%E5%A4%87%E4%BB%BD.png" class=""></li>
+</ul>
+<h3 id="备份命令"><a href="#备份命令" class="headerlink" title="备份命令"></a>备份命令</h3><h4 id="dump命令"><a href="#dump命令" class="headerlink" title="dump命令"></a>dump命令</h4><ul>
+<li><p>dump [选项] 备份之后的文件名 原文件或目录</p>
 <ul>
-<li>$PATH<ul>
-<li>PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/root/bin</li>
-<li>PATH存放的是系统查找命令的路径，输入ls命令，系统会在PATH变量中的路径中依次搜索；</li>
-<li>PATH=”$PATH”:/root (PATH变量叠加)</li>
+<li>-level ：0-9十个备份级别<ul>
+<li>备份级别分为0-9；级别为N的转储会对从上次进行的级别小于N的转储操作以来修改过的所有文件进行备份，而级别0就是完全备份。通过这种方式，可以很轻松的实现增量备份，差异备份，甚至每日备份。例如，第一次备份时可选择级别0(具体操作看后面)，以后每天做增量备份时就可以每天依次使用级别1，级别2，级别3等等… …；当需要每天做差异备份时，可先选择级别0做完整备份，然后每天都使用同一大于0的级别就行了。</li>
 </ul>
 </li>
-<li>$PSI<ul>
-<li>???</li>
+<li>-f 文件名 ：指定备份之后的文件名</li>
+<li>-u ：备份成功之后，备份时间记录在/etc/dumpdates文件中</li>
+<li>-v ：显示备份过程中更多地输出信息</li>
+<li>-j ：调用bzlib库压缩备份文件，将备份文件压缩为.bz2格式</li>
+<li>-W ：显示允许被dump的分区的备份等级及备份时间</li>
 </ul>
 </li>
-</ul>
+<li><p>备份分区</p>
+<p>dump -0uj -f /root/boot.bak.bz2 /boot/</p>
+<p>备份级别为0，执行完全备份；备份之后的文件名为/root/boot.bak.bz2；备份的分区为/boot、</p>
 </li>
-<li><p>环境变量配置文件</p>
+<li><p>文件/目录备份</p>
 <ul>
-<li>source命令<ul>
-<li>source 配置文件  或   .配置文件 都会让配置文件不用重启就能生效</li>
-</ul>
-</li>
-<li>v<ul>
-<li>/</li>
+<li>dump -0j -f /root/etc.dump.bz2 /etc/ </li>
+<li>目录只能执行完全备份，不能执行其他级别的备份</li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<h3 id="4-位置参数变量"><a href="#4-位置参数变量" class="headerlink" title="4.位置参数变量"></a>4.位置参数变量</h3><img src="/2022/04/12/linux-bash-bianliang/%E4%BD%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E5%8F%98%E9%87%8F.png" class="">
-
+<h3 id="restore命令"><a href="#restore命令" class="headerlink" title="restore命令"></a>restore命令</h3><ul>
+<li><p>restore [模式选择] [选项]</p>
+<p>常用模式</p>
 <ul>
-<li>相当于形参的作用，在调用脚本的时候输入变量值，传到脚本之中</li>
+<li>-C：比较备份数据和实际数据的变化</li>
+<li>-i：进入交互模式，手工选择需要恢复的文件</li>
+<li>-t：查看模式，用于查看备份文件中拥有哪些数据</li>
+<li>-r：还原模式，用于数据还原</li>
 </ul>
-<pre class="line-numbers language-none"><code class="language-none">#脚本文件：
-#!&#x2F;#!&#x2F;bin&#x2F;bash
-echo $0  #代表命令本身
-echo $1	 #代表第一个参数
-echo $2	 #代表第二个参数
-
-执行脚本：
-[root@~]# chomd 755 &#x2F;sh&#x2F;test.sh hello world &#x2F;&#x2F;传入两个参数： hello 和 world
-[root@~]# .&#x2F;test.sh
-
-执行结果:
-.&#x2F;test.sh
-hello
-world
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<p>选项</p>
 <ul>
-<li>$@和$#</li>
-</ul>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token shebang important">#!/bin/bash</span>
-
-	<span class="token keyword">for</span> <span class="token for-or-select variable">i</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable">$*</span>"</span>
-		<span class="token keyword">do</span>
-			<span class="token builtin class-name">echo</span> <span class="token variable">$i</span>
-		<span class="token keyword">done</span>
-
-	<span class="token keyword">for</span> <span class="token for-or-select variable">y</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable">$@</span>"</span>
-		<span class="token keyword">do</span> 
-			<span class="token builtin class-name">echo</span> <span class="token variable">$y</span>
-		<span class="token keyword">done</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<pre class="line-numbers language-none"><code class="language-none">输入命令： 
-[root@~].&#x2F;test.sh hello world
-执行结果：
-hello world
-hello
-world
-	
-	 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-
-
-<h3 id="5-预定义变量"><a href="#5-预定义变量" class="headerlink" title="5.预定义变量"></a>5.预定义变量</h3><img src="/2022/04/12/linux-bash-bianliang/%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F.png" class="">
-
-<ul>
-<li>命令执行的 || 和 &amp;&amp; 正确与否，就是以$?命令判定的</li>
-</ul>
-<h4 id="6-接受键盘输入"><a href="#6-接受键盘输入" class="headerlink" title="6.接受键盘输入"></a>6.接受键盘输入</h4><ul>
-<li>read [选项] [变量名]<ul>
-<li>-p “提示消息” ：在等待read输入时，输出提示信息</li>
-<li>-t 秒数 ：指定输入的等待时间</li>
-<li>-n 字符数：read命令就会只接受n个字符</li>
-<li> -s : 隐藏输入的数据，适于机密信息的输入</li>
-</ul>
-</li>
-</ul>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token shebang important">#!/bin/bash</span>
-
-<span class="token builtin class-name">read</span> -t <span class="token number">20</span> -p <span class="token string">"please input your name "</span> name  <span class="token comment">#将键盘键入的变量赋值给name</span>
-
-<span class="token builtin class-name">echo</span> <span class="token string">"Name is <span class="token variable">$name</span>"</span>
-
-<span class="token builtin class-name">read</span> -t <span class="token number">10</span> -p <span class="token string">"please input your age "</span> -s age <span class="token comment">#将键盘键入的变量赋值给age</span>
-
-<span class="token builtin class-name">echo</span> <span class="token string">"Age is <span class="token variable">$age</span>"</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
-<h4 id="7-数值运算和运算符"><a href="#7-数值运算和运算符" class="headerlink" title="7.数值运算和运算符"></a>7.数值运算和运算符</h4><ul>
-<li><p>声明变量类型</p>
-<ul>
-<li><p>declare [+/-] [选项]  变量名</p>
-<p>-：给变量设定类型属性</p>
-<p>+：取消变量的类型属性</p>
-<p>-i：将变量声明为整数型</p>
-<p>-x：将变量声明为环境变量</p>
-<p>-p：显示指定变量的被声明的类型</p>
-</li>
-</ul>
-</li>
-<li><p>数值运算</p>
-<ul>
-<li><p>方法一: 将代表结果的变量定义为数值类型</p>
-<pre class="line-numbers language-none"><code class="language-none">[root@~]#a&#x3D;1
-[root@~]#b&#x3D;2
-[root@~]#declare -i c&#x3D;$a+$b<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre></li>
-<li><p>方法二：运算工具</p>
-</li>
-<li><p>方法三：运算符</p>
-<ul>
-<li>$((运算式))</li>
-<li>$[运算式]</li>
-</ul>
-</li>
+<li>-f：指定备份文件的文件名</li>
 </ul>
 </li>
 </ul>
@@ -693,7 +557,7 @@ world
                     </i>
                 </span>
                 <span class="reprint-info">
-                    <a href="https://xiaoli-c.github.io/2022/04/12/linux-bash-bianliang/">https://xiaoli-c.github.io/2022/04/12/linux-bash-bianliang/</a>
+                    <a href="https://xiaoli-c.github.io/2022/04/22/linux-beifen/">https://xiaoli-c.github.io/2022/04/22/linux-beifen/</a>
                 </span>
             </div>
             <div class="reprint__notice">
@@ -898,62 +762,18 @@ world
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fas fa-chevron-left"></i>&nbsp;Previous</div>
+                <i class="far fa-dot-circle"></i>&nbsp;Current
+            </div>
             <div class="card">
-                <a href="/2022/04/12/linux-userdocument/">
+                <a href="/2022/04/22/linux-beifen/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="linux-userdocument">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="linux-beifen">
                         
-                        <span class="card-title">linux-userdocument</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            
-                        
-                    </div>
-                    <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="far fa-clock fa-fw icon-date"></i>2022-04-12
-                        </span>
-                        <span class="publish-author">
-                            
-                            <i class="fas fa-user fa-fw"></i>
-                            John Doe
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/linux/">
-                        <span class="chip bg-color">linux</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                Next&nbsp;<i class="fas fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2022/04/12/linux-shell-bash/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="linux-shell-bash">
-                        
-                        <span class="card-title">linux-shell-bash</span>
+                        <span class="card-title">linux-beifen</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -964,7 +784,45 @@ world
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-12
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-22
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fas fa-user fa-fw"></i>
+                            John Doe
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                Next&nbsp;<i class="fas fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2022/04/20/linux-rizhi/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="linux-rizhi">
+                        
+                        <span class="card-title">linux-rizhi</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-20
                             </span>
                         <span class="publish-author">
                             
@@ -1119,7 +977,7 @@ world
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">70.3k</span>&nbsp;字
+                class="white-color">75.8k</span>&nbsp;字
             
             
             

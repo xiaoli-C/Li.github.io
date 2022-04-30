@@ -456,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    1.2k
+                    1.4k
                 </div>
                 
 
@@ -476,13 +476,19 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>ACL权限</p>
+                <p>ACL权限:访问控制列表</p>
+<img src="/2022/04/13/linux-quanxian/acl.png" class="" title="image-20220430004132016">
+
+
+
+
+
 <h4 id="查看ACL命令"><a href="#查看ACL命令" class="headerlink" title="查看ACL命令"></a>查看ACL命令</h4><ul>
 <li><p>getfacl 文件名：查看ACL权限</p>
 <p>getfacl a.txt</p>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token comment">#file: a.txt</span>
-<span class="token comment">#owner: root</span>
-<span class="token comment">#group: root</span>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#file: a.txt
+#owner: root
+#group: root
 user::rw-
 user:zhr:r-x
 group::r--
@@ -667,6 +673,37 @@ other::r--<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
 <li>lsattr  [选项]  文件名<ul>
 <li>-a : 显示所有文件和目录</li>
 <li>-d : 若目标是目录，仅列出目录本身的属性，而不是子文件的</li>
+</ul>
+</li>
+</ul>
+<h4 id="sudo权限"><a href="#sudo权限" class="headerlink" title="sudo权限"></a>sudo权限</h4><ul>
+<li><p>root将一些只有root用户执行的命令赋予给普通用户执行</p>
+</li>
+<li><p>visudo-赋予用户权限命令</p>
+<ul>
+<li>实际修改的是 /etc/sudoers 文件</li>
+<li>/etc/sudoers文件不能用vim修改，只能用visudo命令修改</li>
+<li>visudo是修改这个文件的专属命令</li>
+</ul>
+</li>
+<li><p>文件修改规则</p>
+<p>root ALL=(ALL)  ALL</p>
+<p>被授权用户 被管理主机的地址 授权命令</p>
+<p>%wheel ALL=(ALL) ALL</p>
+<p>%组名 被管理主机的地址=(可使用的身份) 授权命令</p>
+<pre class="line-numbers language-none"><code class="language-none">zhr ALL&#x3D;(ALL) &#x2F;sbin&#x2F;shutdown -r now<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></li>
+<li><p>普通用户执行</p>
+<ul>
+<li>sudo -l：查看可以执行的sudo命令 </li>
+</ul>
+<pre class="line-numbers language-none"><code class="language-none">用户 zhr 可以在 localhost 上运行以下命令：
+    (ALL) &#x2F;sbin&#x2F;shutdown -r now<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<ul>
+<li>命令执行<ul>
+<li>sudo /sbin/shutdown -r now</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -1118,7 +1155,7 @@ other::r--<span aria-hidden="true" class="line-numbers-rows"><span></span><span>
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">70.3k</span>&nbsp;字
+                class="white-color">75.8k</span>&nbsp;字
             
             
             

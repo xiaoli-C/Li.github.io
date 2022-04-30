@@ -456,7 +456,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>Word Count:&nbsp;&nbsp;
-                    629
+                    873
                 </div>
                 
 
@@ -545,7 +545,7 @@
 <li>wall 给所有用户发信息</li>
 </ul>
 <h4 id="3-2-ping"><a href="#3-2-ping" class="headerlink" title="3.2.ping"></a>3.2.ping</h4><ul>
-<li>ping -c ip地址   指定发送次数</li>
+<li>ping -c 次数  ip地址   指定发送次数</li>
 </ul>
 <h4 id="3-3-ifconfig-查看网络详细信息"><a href="#3-3-ifconfig-查看网络详细信息" class="headerlink" title="3.3.ifconfig-查看网络详细信息"></a>3.3.ifconfig-查看网络详细信息</h4><h4 id="3-4-mail-邮件命令"><a href="#3-4-mail-邮件命令" class="headerlink" title="3.4.mail-邮件命令"></a>3.4.mail-邮件命令</h4><ul>
 <li><p>mail </p>
@@ -608,7 +608,24 @@
 <li>reboot ：重启</li>
 <li>init 6 ：重启</li>
 </ul>
-<h4 id="4-3-init系统运行级别0-6"><a href="#4-3-init系统运行级别0-6" class="headerlink" title="4.3.init系统运行级别0-6"></a>4.3.init系统运行级别0-6</h4>
+<h4 id="4-3-init系统运行级别0-6"><a href="#4-3-init系统运行级别0-6" class="headerlink" title="4.3.init系统运行级别0-6"></a>4.3.init系统运行级别0-6</h4><ul>
+<li>运行级别0：系统停机状态，系统默认运行级别不能设为0，否则不能正常启动。其实就是关机。</li>
+<li>运行级别1：单用户工作状态，root权限，用于系统维护，禁止远程登陆；忘记root密码时可用此级别，修改root密码。</li>
+<li>运行级别2：多用户状态(没有NFS)，没有网络连接。</li>
+<li>运行级别3：完全的多用户状态(有NFS)，登陆后进入控制台命令行模式。 linux很常见的运行级别。</li>
+<li>运行级别4：系统未使用，保留。</li>
+<li>运行级别5：X11控制台，登陆后进入图形GUI模式。就是图形模式。</li>
+<li>运行级别6：系统正常关闭并重启，默认运行级别不能设为6，否则不能正常启动。</li>
+</ul>
+<h4 id="相关命令"><a href="#相关命令" class="headerlink" title="相关命令"></a>相关命令</h4><ul>
+<li>runlevel</li>
+<li>init 运行级别</li>
+<li>系统默认运行级别<ul>
+<li>etc/inittab中修改(centos6中可用，centos7中已经弱化init功能)</li>
+</ul>
+</li>
+</ul>
+
                 
             </div>
             <hr/>
@@ -1064,7 +1081,7 @@
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">70.3k</span>&nbsp;字
+                class="white-color">75.8k</span>&nbsp;字
             
             
             
