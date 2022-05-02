@@ -486,7 +486,7 @@
 
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="一、面向对象"><a href="#一、面向对象" class="headerlink" title="一、面向对象"></a>一、面向对象</h2><h3 id="1、面向对象和面向过程"><a href="#1、面向对象和面向过程" class="headerlink" title="1、面向对象和面向过程"></a>1、面向对象和面向过程</h3><h4 id="1-1-面向过程和面向对象有什么区别？"><a href="#1-1-面向过程和面向对象有什么区别？" class="headerlink" title="1.1.面向过程和面向对象有什么区别？"></a>1.1.面向过程和面向对象有什么区别？</h4><p>从语言方面出发：</p>
+                <h2 id="一、面向对象"><a href="#一、面向对象" class="headerlink" title="一、面向对象"></a>一、面向对象</h2><h3 id="1-面向对象和面向过程"><a href="#1-面向对象和面向过程" class="headerlink" title="1.面向对象和面向过程"></a>1.面向对象和面向过程</h3><h4 id="1-1-面向过程和面向对象有什么区别？"><a href="#1-1-面向过程和面向对象有什么区别？" class="headerlink" title="1.1.面向过程和面向对象有什么区别？"></a>1.1.面向过程和面向对象有什么区别？</h4><p>从语言方面出发：</p>
 <ul>
 <li>对于C语言来说，是完全面向过程的。</li>
 <li>对于C++语言来说，是一半面向过程，一半是面向对象。（C++是半面向对象的）</li>
@@ -499,7 +499,7 @@
 <p>​    采用面向对象的方式进行开发：耦合度低，扩展力强。但相对面向过程，性能较差</p>
 <p>​    面向过程主要关注的是：实现步骤以及整个过程。</p>
 <p>​    面向对象主要关注的是：对象A，对象B，对象C，然后对象ABC组合，或者CBA组合…..</p>
-<h3 id="2、类和对象"><a href="#2、类和对象" class="headerlink" title="2、类和对象"></a>2、类和对象</h3><h4 id="2-1-类"><a href="#2-1-类" class="headerlink" title="2.1.类"></a>2.1.类</h4><p>类是一个抽象的概念。是一个模板。是进行“思考、总结、抽象”的一个结果。类本质上是现实世界当中某些事物具有共同特征，将这些共同特征提取出来形成的概念就是一个“类”，“类”就是一个模板。</p>
+<h3 id="2-类和对象"><a href="#2-类和对象" class="headerlink" title="2.类和对象"></a>2.类和对象</h3><h4 id="2-1-类"><a href="#2-1-类" class="headerlink" title="2.1.类"></a>2.1.类</h4><p>类是一个抽象的概念。是一个模板。是进行“思考、总结、抽象”的一个结果。类本质上是现实世界当中某些事物具有共同特征，将这些共同特征提取出来形成的概念就是一个“类”，“类”就是一个模板。</p>
 <pre class="line-numbers language-java" data-language="java"><code class="language-java">语法格式<span class="token operator">:</span><span class="token punctuation">[</span>修饰符列表<span class="token punctuation">]</span> <span class="token keyword">class</span> 类名 <span class="token punctuation">&#123;</span>  （修饰符列表可以省略。）
            <span class="token comment">//类体 = 属性 + 方法(属性在代码上以“变量”的形式存在（描述状态）；方法描述动作/行为)</span>
         <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
@@ -584,11 +584,10 @@
 */</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <p> 按值调用和按引用调用</p>
-<pre><code>  方法可以改变传递引用所对应的变量值；不能修改传递值对应的变量值。java中采用按值调用。
-</code></pre>
-<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">tripleValue</span><span class="token punctuation">(</span><span class="token keyword">double</span> x<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
+<pre class="line-numbers language-java" data-language="java"><code class="language-java"><span class="token comment">//方法可以改变传递引用所对应的变量值；不能修改传递值对应的变量值。java中采用按值调用。</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">tripleValue</span><span class="token punctuation">(</span><span class="token keyword">double</span> x<span class="token punctuation">)</span><span class="token punctuation">&#123;</span>
     x <span class="token operator">=</span> x <span class="token operator">*</span> <span class="token number">3</span><span class="token punctuation">;</span>
-<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
 
 <img src="/2021/06/20/java1/%E5%80%BC%E4%BC%A0%E9%80%92.png" class="">
 
@@ -642,7 +641,7 @@ public static void tripleValue(Employee e)&#123;
 <li>package com.xxx.xx 将一个类放进包中</li>
 <li>package放在源文件的开头</li>
 </ul>
-<h3 id="3、面向对象包括三大特征"><a href="#3、面向对象包括三大特征" class="headerlink" title="3、面向对象包括三大特征"></a>3、面向对象包括三大特征</h3><h4 id="3-1-封装"><a href="#3-1-封装" class="headerlink" title="3.1.封装"></a>3.1.封装</h4><p>将属性私有化，并提供外界访问的方法</p>
+<h3 id="3-面向对象包括三大特征"><a href="#3-面向对象包括三大特征" class="headerlink" title="3.面向对象包括三大特征"></a>3.面向对象包括三大特征</h3><h4 id="3-1-封装"><a href="#3-1-封装" class="headerlink" title="3.1.封装"></a>3.1.封装</h4><p>将属性私有化，并提供外界访问的方法</p>
 <h5 id="3-1-1封装的作用"><a href="#3-1-1封装的作用" class="headerlink" title="3.1.1封装的作用"></a>3.1.1封装的作用</h5><ol>
 <li>第一个作用：保证内部结构的安全。</li>
 <li>第二个作用：屏蔽复杂，暴露简单。    </li>
@@ -1602,7 +1601,7 @@ t<span class="token punctuation">.</span><span class="token function">start</spa
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">74.3k</span>&nbsp;字
+                class="white-color">74.6k</span>&nbsp;字
             
             
             
