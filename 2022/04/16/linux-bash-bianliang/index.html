@@ -466,7 +466,7 @@
                 
                 <div class="info-break-policy">
                     <i class="far fa-file-word fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    1.1k
+                    1.2k
                 </div>
                 
 
@@ -608,17 +608,17 @@ world
 <ul>
 <li>$@和$#</li>
 </ul>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token shebang important">#!/bin/bash</span>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
 
-	<span class="token keyword">for</span> <span class="token for-or-select variable">i</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable">$*</span>"</span>
-		<span class="token keyword">do</span>
-			<span class="token builtin class-name">echo</span> <span class="token variable">$i</span>
-		<span class="token keyword">done</span>
+	for i in &quot;$*&quot;
+		do
+			echo $i
+		done
 
-	<span class="token keyword">for</span> <span class="token for-or-select variable">y</span> <span class="token keyword">in</span> <span class="token string">"<span class="token variable">$@</span>"</span>
-		<span class="token keyword">do</span> 
-			<span class="token builtin class-name">echo</span> <span class="token variable">$y</span>
-		<span class="token keyword">done</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+	for y in &quot;$@&quot;
+		do 
+			echo $y
+		done<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <pre class="line-numbers language-none"><code class="language-none">输入命令： 
 [root@~].&#x2F;test.sh hello world
@@ -645,15 +645,15 @@ world
 </ul>
 </li>
 </ul>
-<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token shebang important">#!/bin/bash</span>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">#!&#x2F;bin&#x2F;bash
 
-<span class="token builtin class-name">read</span> -t <span class="token number">20</span> -p <span class="token string">"please input your name "</span> name  <span class="token comment">#将键盘键入的变量赋值给name</span>
+read -t 20 -p &quot;please input your name &quot; name  #将键盘键入的变量赋值给name
 
-<span class="token builtin class-name">echo</span> <span class="token string">"Name is <span class="token variable">$name</span>"</span>
+echo &quot;Name is $name&quot;
 
-<span class="token builtin class-name">read</span> -t <span class="token number">10</span> -p <span class="token string">"please input your age "</span> -s age <span class="token comment">#将键盘键入的变量赋值给age</span>
+read -t 10 -p &quot;please input your age &quot; -s age #将键盘键入的变量赋值给age
 
-<span class="token builtin class-name">echo</span> <span class="token string">"Age is <span class="token variable">$age</span>"</span>
+echo &quot;Age is $age&quot;
 <span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
 <h4 id="7-数值运算和运算符"><a href="#7-数值运算和运算符" class="headerlink" title="7.数值运算和运算符"></a>7.数值运算和运算符</h4><ul>
@@ -1141,7 +1141,7 @@ world
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">79.2k</span>&nbsp;字
+                class="white-color">100k</span>&nbsp;字
             
             
             

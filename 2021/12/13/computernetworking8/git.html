@@ -1,0 +1,222 @@
+<hr>
+<p>title: git<br>date: 2022-04-08 20:58:47<br>tags:</p>
+<hr>
+<h3 id="git基础"><a href="#git基础" class="headerlink" title="git基础"></a>git基础</h3><h3 id="git原理"><a href="#git原理" class="headerlink" title="git原理"></a>git原理</h3><h4 id="1-git文件布局"><a href="#1-git文件布局" class="headerlink" title="1.git文件布局"></a>1.git文件布局</h4><ul>
+<li><p>Git分为Git仓库、暂存区域、工作目录</p>
+</li>
+<li><p>.git目录用来保存元数据和对象数据库</p>
+</li>
+<li><p>工作目录将数据库中的某个版本提取出来，放到磁盘上供人修改</p>
+</li>
+<li><p>暂存区域是一个文件，保存下次要提交的文件列表信息</p>
+</li>
+</ul>
+<p><img src="git/git%E5%B8%83%E5%B1%80.png"></p>
+<ul>
+<li><p>git贮藏区</p>
+<p>贮藏区的作用是用来临时保存”集结区”内未提交的内容。</p>
+<p>使用场景：</p>
+<p>当我们通过git add 向暂存区添加代码后，并未通过 commit 提交；此时，我们想创建一条分支，但会提醒有内容未提交；这些内容我们并不想提交；此时，就可以通过git stash命令，将未提交内容存入贮藏区。</p>
+<p>调用 git stash 之后，工作区的文件、暂存区就会被回滚到上次提交 commit 后的状态，我们可以重新修改文件，并向暂存区添加。如果对当前工作不满意，可以使用 git stash apply 命令把前面贮藏的修改恢复到工作区与暂存区。</p>
+</li>
+<li><p>本地仓库文件布局</p>
+<p><img src="git/%E6%9C%AC%E5%9C%B0%E5%BA%93.png"></p>
+</li>
+</ul>
+<h4 id="2-objects"><a href="#2-objects" class="headerlink" title="2.objects"></a>2.objects</h4><p><strong>.git下的objects储存三种对象：数据对象、树对象、提交对象</strong></p>
+<p>初始化本地库后，添加一个a.txt和一个b目录，b目录下添加一个c.txt文件，如下图</p>
+<p><img src="git/%E6%95%B0%E6%8D%AE%E5%AF%B9%E8%B1%A1.png"></p>
+<pre><code class="shell">#查看状态
+李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ git status
+On branch master
+
+No commits yet
+
+Untracked files:
+  (use &quot;git add &lt;file&gt;...&quot; to include in what will be committed)
+        a.txt
+        b/
+
+nothing added to commit but untracked files present (use &quot;git add&quot; to track)
+
+#将文件和目录存到暂存区
+李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ git add a.txt b
+warning: LF will be replaced by CRLF in a.txt.
+The file will have its original line endings in your working directory
+warning: LF will be replaced by CRLF in b/c.txt.
+The file will have its original line endings in your working directory
+
+</code></pre>
+<p>存在暂存区后，objects目录下出现两个文件夹，如下图</p>
+<p><img src="git/objects.png"></p>
+<ul>
+<li><p>数据对象(blob)</p>
+<p><strong>数据对象的产生是在使用git add命令将文件或者目录加入到暂存区时产生的</strong>，Git会把一个文件中要存储的数据和一个头部信息一起做SHA-1散列运算，将得到的散列值作为这个文件的路径。该文件名是由文件原内容加上特定头部信息一起做SHA-1散列值得到的，散列值前两字符用于命名子目录，余下的38个字符则用作文件名。</p>
+<pre><code class="shell"># 通过 git cat-file -p 参看文件内容
+
+李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ find .git/objects
+.git/objects
+.git/objects/71
+.git/objects/71/4d562401e8d66a89d1d100b3dcdc145e9c4258
+.git/objects/8b
+.git/objects/8b/aef1b4abc478178b004d62031cf7fe6db6f903
+.git/objects/info
+.git/objects/pack
+
+李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ git cat-file -p 8baef1b4abc478178b004d62031cf7fe6db6f903
+abc
+李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$  git cat-file -p 714d562401e8d66a89d1d100b3dcdc145e9c4258
+ABC
+</code></pre>
+<p>通过参看，显示的内容与加入暂存区之间文件中的内容是一样的，这个散列值路径文件中保存的只是源文件的一种压缩形式。同时，发现提交的目录生成的数据对象，并没有目录相关信息，而是存为目录下文件的数据对象，目录相关信息储存在树对象中。</p>
+</li>
+<li><p>树对象(tree)</p>
+<p>将暂存区中的文件通过git commit -m提交本地库，发现objects中多了三个文件，如下图</p>
+<p><img src="git/objects4.png"></p>
+<pre><code class="shell">李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ git commit -m &quot;first&quot;
+[master (root-commit) 407ee86] first
+ 2 files changed, 2 insertions(+)
+ create mode 100644 a.txt
+ create mode 100644 b/c.txt
+ 
+# 通过 git cat-file -p 参看文件内容
+李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ find .git/objects
+.git/objects
+.git/objects/71
+.git/objects/71/4d562401e8d66a89d1d100b3dcdc145e9c4258
+.git/objects/8b
+.git/objects/8b/aef1b4abc478178b004d62031cf7fe6db6f903
+.git/objects/ae
+.git/objects/ae/072fa477e9f442e3ada7153a0582e87d4d70cb
+.git/objects/fe
+.git/objects/fe/934b4d33f7cdf81bf7582d6c03558d8fbc741d
+.git/objects/info
+.git/objects/pack
+
+#第一条：该树对象指向一个8b..的数据对象，数据对象的文件名为a.txt，模式为100644(普通文件)
+#第二条：该树对象指向一个ae..树对象，树对象名称为b,模式为040000(目录)
+李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ git cat-file -p fe934b4d33f7cdf81bf7582d6c03558d8fbc741d
+100644 blob 8baef1b4abc478178b004d62031cf7fe6db6f903    a.txt
+040000 tree ae072fa477e9f442e3ada7153a0582e87d4d70cb    b
+
+#该树对象指向一个714..的数据对象，树对象的文件名为test.txt，模式为100644
+李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ git cat-file -p ae072fa477e9f442e3ada7153a0582e87d4d70cb
+100644 blob 714d562401e8d66a89d1d100b3dcdc145e9c4258    c.txt
+</code></pre>
+<p>每次提交的时候都会生成对应的树对象，其中顶层树对象成为本次提交的快照。 </p>
+<p>树对象的结构：</p>
+<p><img src="git/objects5.png"></p>
+<p>我们上述的例子对应的树对象如下：</p>
+<p><img src="git/objects6.png"></p>
+</li>
+<li><p>提交对象(commit)</p>
+<p>通过分析提交对象的内容，发现提交对象中包含一个树对象条目(顶层树对象)，代表着当前项目快照；还包含其他的提交信息。</p>
+<pre><code>李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ find .git/objects
+.git/objects
+.git/objects/40
+.git/objects/40/7ee86e0053f17739040f6481607be4419524ba
+.git/objects/71
+.git/objects/71/4d562401e8d66a89d1d100b3dcdc145e9c4258
+.git/objects/8b
+.git/objects/8b/aef1b4abc478178b004d62031cf7fe6db6f903
+.git/objects/ae
+.git/objects/ae/072fa477e9f442e3ada7153a0582e87d4d70cb
+.git/objects/fe
+.git/objects/fe/934b4d33f7cdf81bf7582d6c03558d8fbc741d
+.git/objects/info
+.git/objects/pack
+
+李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ git cat-file -p 407ee86e0053f17739040f6481607be4419524ba
+tree fe934b4d33f7cdf81bf7582d6c03558d8fbc741d
+author xiaolili &lt;xiaoli@163.com&gt; 1656064030 +0800
+committer xiaolili &lt;xiaoli@163.com&gt; 1656064030 +0800
+
+first
+
+</code></pre>
+<pre><code class="shell">李朱鹏@DESKTOP-HAGDVO0 MINGW64 /f/Git/GitSpace (master)
+$ git cat-file -p 6d5d85d767523c26603681a3d9d1265bcdad7d4b
+tree 31f18623ad8f693022a4c8e5cfe1f79f40106863
+parent 407ee86e0053f17739040f6481607be4419524ba
+author xiaolili &lt;xiaoli@163.com&gt; 1656130510 +0800
+committer xiaolili &lt;xiaoli@163.com&gt; 1656130510 +0800
+
+sec
+</code></pre>
+</li>
+</ul>
+<h3 id="git的常用命令"><a href="#git的常用命令" class="headerlink" title="git的常用命令"></a>git的常用命令</h3><h4 id="设置用户签名"><a href="#设置用户签名" class="headerlink" title="设置用户签名"></a>设置用户签名</h4><pre><code class="shell">#签名的作用是区分不同操作者身份。用户的签名信息在每一个版本的提交信息中能够看到，以此确认本次提交是谁做的。Git 首次安装必须设置一下用户签名，否则无法提交代码。
+git config --global user.name xxx
+git config --global user.email xxx
+git config user.name #查看用户名
+git config user.email #查看用户邮箱
+</code></pre>
+<h4 id="初始本地库"><a href="#初始本地库" class="headerlink" title="初始本地库"></a>初始本地库</h4><pre><code class="shell">git init
+</code></pre>
+<h4 id="提交文件"><a href="#提交文件" class="headerlink" title="提交文件"></a>提交文件</h4><pre><code class="shell">#查看状态
+git status
+#添加暂存区
+git add file_name
+#提交本地库
+git commit -m &quot;log&quot; file_name 
+</code></pre>
+<ul>
+<li>查看状态，工作区没有文件</li>
+</ul>
+<p><img src="git/1.png"></p>
+<ul>
+<li>向工作区添加文件，检测到未追踪文件</li>
+</ul>
+<p><img src="git/2.png"></p>
+<ul>
+<li>将文件添加到暂存区，检测到暂存区有文件</li>
+</ul>
+<p><img src="git/3.png"></p>
+<ul>
+<li>向本地库提交文件，检测到没有文件提交</li>
+</ul>
+<p><img src="git/4.png"></p>
+<ul>
+<li>修改文件，检测到工作区有文件被修改</li>
+</ul>
+<p><img src="git/5.png"></p>
+<ul>
+<li>将修改的文件添加到暂存区，检测到修改的文件已经添加到暂存区</li>
+</ul>
+<p><img src="git/6.png"></p>
+<ul>
+<li>将修改的文件提交到版本库，成为第二个版本</li>
+</ul>
+<p><img src="git/7.png"></p>
+<h4 id="查看历史版本"><a href="#查看历史版本" class="headerlink" title="查看历史版本"></a>查看历史版本</h4><pre><code class="shell">#查看历史版本
+git reflog
+#追溯到其他版本
+git reset --hard version
+</code></pre>
+<p><img src="git/%E8%BF%BD%E6%BA%AF.png"></p>
+<h3 id="分支"><a href="#分支" class="headerlink" title="分支"></a>分支</h3><p>git branch -v  查看分支</p>
+<p>git branch -d xx 删除分支</p>
+<p>git branch 分支名 在当前提交对象上创建分支(在哪个分支上创建就复制哪个分支)</p>
+<p>git checkout 分支名  切换分支(切换到该分支的最后一次提交的状态)</p>
+<p>git merge 分支名  把指定分支合并到当前分支</p>
+<p><img src="git/branch1.png"></p>
+<p><img src="git/branch2.png"></p>
+<p><img src="git/branch3.png"></p>
+<p><img src="git/branch4.png"></p>
+<p><img src="git/branch5.png"></p>
+<p>fzhb</p>
+<p><img src="git/branch6.png"></p>
+<p><img src="git/branch7.png"></p>
+<p><img src="git/branch8.png"></p>
+<p><img src="git/branch9.png"></p>

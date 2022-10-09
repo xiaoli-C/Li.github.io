@@ -361,30 +361,29 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/11/16/maven/">
+                    <a href="/2021/12/05/jvm2/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/19.jpg" class="responsive-img" alt="maven">
+                            <img src="/medias/featureimages/17.jpg" class="responsive-img" alt="jvm2">
                             
-                            <span class="card-title">maven</span>
+                            <span class="card-title">jvm2</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                一、
-构建项目过程的几个主要环节
-①清理:删除以前的编译结果,为重新编译做好准备。
-②编译:将Java源程序编译为字节码文件。
-③测试:针对项目中的关键点进行测试,确保项目在迭代开发过程中关键点的正确性。
-④报告:在每一次测试后以标准的格式
+                                一、what二、when三、垃圾收集算法及其实现3.1.垃圾收集算法3.1.1分代收集理论
+弱分代假说：绝大多数对象都是朝生夕灭的。
+
+强分代假说：熬过越多次垃圾收集过程的对象就越难消亡。
+垃圾收集器的设计原则：收集器应该将Java堆划分 
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-05
                             </span>
                             <span class="publish-author">
                                 
@@ -401,13 +400,13 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/11/16/spring3/">
+                    <a href="/2021/12/03/http/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="spring3">
+                            <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="Http">
                             
-                            <span class="card-title">spring3</span>
+                            <span class="card-title">Http</span>
                         </div>
                     </a>
 
@@ -417,7 +416,7 @@
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-03
                             </span>
                             <span class="publish-author">
                                 
@@ -434,29 +433,26 @@
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/11/16/spring2/">
+                    <a href="/2021/12/03/concurrency/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="spring2">
+                            <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="concurrency">
                             
-                            <span class="card-title">spring2</span>
+                            <span class="card-title">concurrency</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                一、AOPAOP（Aspect Orient Programming）面向切面编程
-Aspect: 切面,给目标类增加的功能,就是切面。切面的特点： 一般都是独立使用的。
-Orient：面向, 对着。
-Programming：编程
-1.1.
+                                一、锁1.Lock1.1.悲观锁和乐观锁悲观锁：假设最坏的情况，每次拿数据的时候都会认为其他线程会修改，所以拿数据时都会上锁，其他线程阻塞，直到释放锁。
+乐观锁：每次拿数据的时候，都会认为其他线程不会修改这个数据，不会上锁，数据更新时再检测
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-03
                             </span>
                             <span class="publish-author">
                                 
@@ -473,26 +469,29 @@ Programming：编程
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/11/16/spring1/">
+                    <a href="/2021/12/03/computersystems/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="spring1">
+                            <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="ComputerSystems">
                             
-                            <span class="card-title">spring1</span>
+                            <span class="card-title">ComputerSystems</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                代理为其他对象提供一个代理以控制对某个对象的访问。代理类主要负责为委托了（真实对象）预处理消息、过滤消息、传递消息给委托类，代理类不现实具体服务，而是利用委托类来完成服务，并将执行结果封装处理。
-其实就是代理类为被代理类预处理消息、过滤消息
+                                一、操作系统概述二、进程和线程
+CPU的工作原理
+设置命令初值，pc=50，从地址总线获取内存中的命令，返回50命令到CPU中，执行命令
+
+提出问题:IO指令的运算实际是计算指令的10^6倍，若先执行IO指令，则有数条指令在等待，CPU利用
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-16
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-03
                             </span>
                             <span class="publish-author">
                                 
@@ -509,72 +508,29 @@ Programming：编程
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/11/16/spring/">
+                    <a href="/2021/12/03/stack/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/21.jpg" class="responsive-img" alt="spring-IOC">
+                            <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="stack">
                             
-                            <span class="card-title">spring-IOC</span>
+                            <span class="card-title">stack</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                一、概述1.1.SpringIOC容器接口Spring容器主要依靠两个接口：BeanFactory和ApplicationContext,大部分以ApplicationContext为容器。
-BeanFactory和ApplicationC
+                                一、栈概述栈的插入删除只能在表 的尾端进行，即后入先出，进行插入删除操作的位置是栈顶，另一段是栈底  插入称为入栈，删除称为出栈
+二、栈的实现
+顺序储存，数组实现
+public class MyStack &#123;
+    privat
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-16
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                Li
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/java-spring/">
-                            <span class="chip bg-color">java,spring</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2021/11/10/javaweb/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/22.jpg" class="responsive-img" alt="javaweb">
-                            
-                            <span class="card-title">javaweb</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                                一、Servlet1.1.概述
-Servlet中有5个方法
-public void init(ServletConfig config)  初始化时执行 
-public ServletConfig getServletConfig();  
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-10
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-03
                             </span>
                             <span class="publish-author">
                                 
@@ -591,30 +547,28 @@ public ServletConfig getServletConfig();
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/10/23/java4/">
+                    <a href="/2021/12/03/queue/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="java-IO">
+                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="queue">
                             
-                            <span class="card-title">java-IO</span>
+                            <span class="card-title">queue</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                1、IO流定义
-I : Input；O : Output；通过IO可以完成硬盘文件的读和写。
-2、IO流的分类
-​    按照流的方向进行分类：
-​    以内存作为参照物，
-​        往内存中去，叫做输入(Input)。或者叫做读
+                                一、概述
+只允许在一端插入数据操作，在另一端进行删除数据操作的特殊线性表；进行插入操作的一端称为队尾（入队列），进行删除操作的一端称为队头（出队列）；队列具有先进先出（FIFO）的特性。
+
+队列实现的关键在于两个指针，头指针指向已出队的元素
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-23
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-03
                             </span>
                             <span class="publish-author">
                                 
@@ -631,68 +585,33 @@ I : Input；O : Output；通过IO可以完成硬盘文件的读和写。
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/10/11/jvm/">
+                    <a href="/2021/12/03/redblacktrees/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="jvm">
+                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="redblacktrees">
                             
-                            <span class="card-title">jvm</span>
+                            <span class="card-title">redblacktrees</span>
                         </div>
                     </a>
 
                     <div class="card-content article-content">
                         <div class="summary block-with-text">
                             
-                                一、java内存区域和内存溢出异常1.1.运行时数据区域
+                                一、树概述
 
-1.1.1.程序计数器程序计数器(Program Counter Register)是一块较小的内存空间，它可以看作是当前线程所执行的字节码的行号指示器。在虚拟机的概念模型里(仅是
+有关树的常用术语
+
+节点：每个储存数据的圆圈都是节点；
+节点的路径：从根节点到本节点经历的节点和分支的顺序排序。
+路径的长度：指节点的路径包含的分支数，即边数。
+节点的度：指该节点拥有的子树的个数；
+树的度：所有的节点的度中，
                             
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-11
-                            </span>
-                            <span class="publish-author">
-                                
-                                <i class="fas fa-user fa-fw"></i>
-                                Li
-                                
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/java/">
-                            <span class="chip bg-color">java</span>
-                        </a>
-                        
-                    </div>
-                    
-                </div>
-            </div>
-            
-            <div class="article col s12 m6 l4" data-aos="zoom-in">
-                <div class="card">
-                    <a href="/2021/10/07/mysql3/">
-                        <div class="card-image">
-                            
-                            
-                            <img src="/medias/featureimages/23.jpg" class="responsive-img" alt="mysql3">
-                            
-                            <span class="card-title">mysql3</span>
-                        </div>
-                    </a>
-
-                    <div class="card-content article-content">
-                        <div class="summary block-with-text">
-                            
-                        </div>
-                        <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-07
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-03
                             </span>
                             <span class="publish-author">
                                 
@@ -709,13 +628,13 @@ I : Input；O : Output；通过IO可以完成硬盘文件的读和写。
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
-                    <a href="/2021/10/02/redis2/">
+                    <a href="/2021/12/01/maven2/">
                         <div class="card-image">
                             
                             
-                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="redis2">
+                            <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="maven2">
                             
-                            <span class="card-title">redis2</span>
+                            <span class="card-title">maven2</span>
                         </div>
                     </a>
 
@@ -725,7 +644,7 @@ I : Input；O : Output；通过IO可以完成硬盘文件的读和写。
                         </div>
                         <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2021-10-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-12-01
                             </span>
                             <span class="publish-author">
                                 
@@ -737,13 +656,79 @@ I : Input；O : Output；通过IO可以完成硬盘文件的读和写。
                     </div>
 
                     
-                    <div class="card-action article-tags">
-                        
-                        <a href="/tags/redis/">
-                            <span class="chip bg-color">redis</span>
-                        </a>
-                        
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2021/11/28/maven1/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="maven1">
+                            
+                            <span class="card-title">maven1</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                一、Maven继承1.1.父模块两个条件
+packing标签格式为pom
+删除src文件夹
+
+1.2.pom文件1.2.1.父子模块在同级目录&lt;?xml version="1.0" encoding="UTF-8"?>
+
+&lt;pr
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-28
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                Li
+                                
+                            </span>
+                        </div>
                     </div>
+
+                    
+                </div>
+            </div>
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2021/11/25/java6/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="java6">
+                            
+                            <span class="card-title">java6</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="far fa-clock fa-fw icon-date"></i>2021-11-25
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fas fa-user fa-fw"></i>
+                                Li
+                                
+                            </span>
+                        </div>
+                    </div>
+
                     
                 </div>
             </div>
@@ -765,7 +750,7 @@ I : Input；O : Output；通过IO可以完成硬盘文件的读和写。
             
         </div>
         <div class="page-info col m4 l4 hide-on-small-only">
-            <div class="center-align b-text-gray">6 / 8</div>
+            <div class="center-align b-text-gray">6 / 9</div>
         </div>
         <div class="col s6 m4 l4">
             
@@ -796,7 +781,7 @@ I : Input；O : Output；通过IO可以完成硬盘文件的读和写。
             <br>
             
             &nbsp;<i class="fas fa-chart-area"></i>&nbsp;站点总字数:&nbsp;<span
-                class="white-color">79.2k</span>&nbsp;字
+                class="white-color">100k</span>&nbsp;字
             
             
             
